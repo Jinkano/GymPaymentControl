@@ -84,6 +84,12 @@
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FrmFamilyGroup.Designer.vb">
+      <DependentUpon>FrmFamilyGroup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmFamilyGroup.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FrmMain.Designer.vb">
       <DependentUpon>FrmMain.vb</DependentUpon>
     </Compile>
@@ -123,6 +129,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmFamilyGroup.resx">
+      <DependentUpon>FrmFamilyGroup.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.vb</DependentUpon>
@@ -169,6 +178,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="image\ic_rate_discount_45x33.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\ic_new_24x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\ic_save_28x28.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\ic_update_28x27.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\ic_family_group_53x30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\ic_modify_28x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\ic_cancel_28x28.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\ic_delete_28x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\ic_close_22x22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\ic_error_28x28.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\ic_okay_28x28.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="image\ic_remove_30x30.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
