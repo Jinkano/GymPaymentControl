@@ -1,53 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Jinkis\\Desktop\\GymPaymentControl\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{AA76CE55-722C-42A0-AD4B-3039D4E7B4BD}|GymPaymentControl.vbproj|c:\\users\\jinkis\\desktop\\gympaymentcontrol\\frmfamilygroup.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{AA76CE55-722C-42A0-AD4B-3039D4E7B4BD}|GymPaymentControl.vbproj|solutionrelative:frmfamilygroup.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA76CE55-722C-42A0-AD4B-3039D4E7B4BD}|GymPaymentControl.vbproj|c:\\users\\jinkis\\desktop\\gympaymentcontrol\\frmfamilygroup.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{AA76CE55-722C-42A0-AD4B-3039D4E7B4BD}|GymPaymentControl.vbproj|solutionrelative:frmfamilygroup.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FrmFamilyGroup.vb",
-              "DocumentMoniker": "C:\\Users\\Jinkis\\Desktop\\GymPaymentControl\\FrmFamilyGroup.vb",
-              "RelativeDocumentMoniker": "FrmFamilyGroup.vb",
-              "ToolTip": "C:\\Users\\Jinkis\\Desktop\\GymPaymentControl\\FrmFamilyGroup.vb",
-              "RelativeToolTip": "FrmFamilyGroup.vb",
-              "ViewState": "AgIAAJMCAAAAAAAAAAAcwK8CAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-09-28T22:17:28.57Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FrmFamilyGroup.vb [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\Jinkis\\Desktop\\GymPaymentControl\\FrmFamilyGroup.vb",
-              "RelativeDocumentMoniker": "FrmFamilyGroup.vb",
-              "ToolTip": "C:\\Users\\Jinkis\\Desktop\\GymPaymentControl\\FrmFamilyGroup.vb [Dise\u00F1o]",
-              "RelativeToolTip": "FrmFamilyGroup.vb [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-09-28T21:38:58.6Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

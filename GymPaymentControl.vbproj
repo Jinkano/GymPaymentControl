@@ -84,6 +84,12 @@
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FrmDiscountTable.Designer.vb">
+      <DependentUpon>FrmDiscountTable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDiscountTable.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FrmFamilyGroup.Designer.vb">
       <DependentUpon>FrmFamilyGroup.vb</DependentUpon>
     </Compile>
@@ -129,6 +135,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDiscountTable.resx">
+      <DependentUpon>FrmDiscountTable.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmFamilyGroup.resx">
       <DependentUpon>FrmFamilyGroup.vb</DependentUpon>
