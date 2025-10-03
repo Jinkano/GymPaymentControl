@@ -22,7 +22,17 @@ GymPaymentControl
   búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
 </summary>
 </member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_cancel_28x28">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:GymPaymentControl.My.Resources.Resources.ic_client_37x35">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_close_22x22">
 <summary>
   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
 </summary>
@@ -32,12 +42,57 @@ GymPaymentControl
   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_delete_28x32">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_error_28x28">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_family_group_53x30">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:GymPaymentControl.My.Resources.Resources.ic_go_out_34x31">
 <summary>
   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_modify_28x32">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_new_24x32">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_okay_28x28">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:GymPaymentControl.My.Resources.Resources.ic_rate_discount_45x33">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_remove_30x30">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_save_28x28">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_update_28x27">
 <summary>
   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
 </summary>

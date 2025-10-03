@@ -73,8 +73,11 @@ Public Class FrmFamilyGroup
             cnxnMySql.Open()
 
             'HACEMOS LA CONSULTA PARA GUARDAR EL NUEVO GRUPO
-            sqlConsulta = "INSERT INTO grp_familiar (nom_grp, intgrntes_grp) VALUES
-                          ('" & TxtListNomGrupo.Text & "', '" & NudNumIntgrntes.Value & "')"
+            sqlConsulta = "INSERT INTO grp_familiar
+                            (nom_grp, num_intgrntes_grp, intgrntes_reg_grp) VALUES
+                            ('" & TxtListNomGrupo.Text & "',
+                            '" & NudNumIntgrntes.Value & "',
+                            '" & DgvListIntgrntes.RowCount & "')"
             cmdCommand = New MySqlCommand(sqlConsulta, cnxnMySql)
             drDataReader = cmdCommand.ExecuteReader()
             drDataReader.Close()
@@ -92,8 +95,9 @@ Public Class FrmFamilyGroup
 
                 'CONSULTA PARA ACTUALIZAR LOS CLIENTES CON EL ID DEL NUEVO GRUPO
                 For Each DgvrId As DataGridViewRow In DgvListIntgrntes.Rows
-                    sqlConsulta = "UPDATE clientes SET mpg_cli = 'GRUPAL', id_grp = '" & Lblidgrp.Text & "'
-                                   WHERE id_cli='" & DgvrId.Cells("ColIdCli").Value.ToString & "'"
+                    sqlConsulta = "UPDATE clientes SET
+                                    mpg_cli = 'GRUPAL', id_grp = '" & Lblidgrp.Text & "'
+                                    WHERE id_cli='" & DgvrId.Cells("ColIdCli").Value.ToString & "'"
                     cmdCommand = New MySqlCommand(sqlConsulta, cnxnMySql)
                     drDataReader = cmdCommand.ExecuteReader()
                     drDataReader.Close()
@@ -172,21 +176,22 @@ Public Class FrmFamilyGroup
             cnxnMySql.ConnectionString = "server=localhost; user=root; password=MS-x51179m; database=control_pagos"
             cnxnMySql.Open()
 
-            'ACTALIZAR EL NOMBRE DEL GRUPO SI SE HA CAMBIADO
-            If ChkGrpVacioNombre.Checked Then
-                sqlConsulta = "UPDATE grp_familiar
-                              SET nom_grp = '" & TxtListNomGrupo.Text & "', intgrntes_grp = '" & NudNumIntgrntes.Value & "'
-                              WHERE id_grp='" & Lblidgrp.Text & "'"
-                cmdCommand = New MySqlCommand(sqlConsulta, cnxnMySql)
-                drDataReader = cmdCommand.ExecuteReader()
-                drDataReader.Close()
-            End If
+            'ACTALIZAR LOS DATOS DEL GRUPO
+            sqlConsulta = "UPDATE grp_familiar SET
+                            nom_grp = '" & TxtListNomGrupo.Text & "',
+                            num_intgrntes_grp = '" & NudNumIntgrntes.Value & "',
+                            intgrntes_reg_grp = '" & DgvListIntgrntes.RowCount & "'
+                            WHERE id_grp='" & Lblidgrp.Text & "'"
+            cmdCommand = New MySqlCommand(sqlConsulta, cnxnMySql)
+            drDataReader = cmdCommand.ExecuteReader()
+            drDataReader.Close()
 
             'CONSULTA PARA ACTUALIZAR LOS CLIENTES CON EL ID DEL NUEVO GRUPO
             For Each DgvFila As DataGridViewRow In DgvListIntgrntes.Rows
                 If DgvFila.Cells("ColIdGrp").Value = Nothing Then
-                    sqlConsulta = "UPDATE clientes SET mpg_cli = 'GRUPAL', id_grp = '" & Lblidgrp.Text & "'
-                                   WHERE id_cli='" & DgvFila.Cells("ColIdCli").Value.ToString & "'"
+                    sqlConsulta = "UPDATE clientes SET
+                                    mpg_cli = 'GRUPAL', id_grp = '" & Lblidgrp.Text & "'
+                                    WHERE id_cli='" & DgvFila.Cells("ColIdCli").Value.ToString & "'"
                     cmdCommand = New MySqlCommand(sqlConsulta, cnxnMySql)
                     drDataReader = cmdCommand.ExecuteReader()
                     drDataReader.Close()
@@ -246,10 +251,10 @@ Public Class FrmFamilyGroup
 
 
         'MENSAJE DE INFORMACIÓN
-        MsgBox("PARA BORRAR UN GRUPO FAMILIAR DE LA BBDD" & vbCr &
-               "_________________________________________________" & vbCr & vbCr &
-               "1.- Selecciona un registro de la lista." & vbCr & vbCr &
-               "2.- Haz click en Eliminar grupo.", vbInformation, "Eliminar grupo")
+        MsgBox("   PARA BORRAR UN GRUPO FAMILIAR DE LA BBDD" & vbCr &
+               "   _________________________________________________" & vbCr & vbCr &
+               "   1.- Selecciona un registro de la lista." & vbCr & vbCr &
+               "   2.- Haz click en Eliminar grupo.", vbInformation, "Eliminar grupo")
 
         'FUNCION PARA LIMPIAR LOS CONTROLES
         CleanControls()
@@ -285,10 +290,10 @@ Public Class FrmFamilyGroup
         End If
 
         'COMPROBAMOS SI SE HA PULSADO EN SI PARA ELIMINAR EL GRUPO Y ACTUALIZAR LOS DATOS DE LOS CLIENTES
-        If MsgBox("Nombre del grupo  : " & TxtListNomGrupo.Text & vbCr &
-                  "Nº de Integrante     : " & NudNumIntgrntes.Value & vbCr &
-                  "____________________________________________" & vbCr & vbCr &
-                  "¿Seguro que quieres ELIMINAR de la BBDD?",
+        If MsgBox("   Nombre del grupo  : " & TxtListNomGrupo.Text & vbCr &
+                  "   Nº de Integrante     : " & NudNumIntgrntes.Value & vbCr &
+                  "   ________________________________________________" & vbCr & vbCr &
+                  "        ¿Seguro que quieres ELIMINAR de la BBDD?",
                   vbYesNo + vbDefaultButton2 + vbQuestion, "Eliminar grupo") = vbYes Then
 
             'USAMOS TRY PARA CAPTURAR POSIBLES ERRORES
@@ -307,7 +312,8 @@ Public Class FrmFamilyGroup
                 Next
 
                 'ACTALIZAR DATOS DEL CLIENTE
-                sqlConsulta = "DELETE FROM grp_familiar WHERE id_grp = '" & Lblidgrp.Text & "'"
+                sqlConsulta = "DELETE FROM grp_familiar 
+                                WHERE id_grp = '" & Lblidgrp.Text & "'"
                 cmdCommand = New MySqlCommand(sqlConsulta, cnxnMySql)
                 drDataReader = cmdCommand.ExecuteReader()
 
@@ -346,10 +352,10 @@ Public Class FrmFamilyGroup
         If Lblidcli.Text = "" Then MsgBox("Selecciona un registro de la lista.", vbCritical, "Lista de integrantes") : Exit Sub
 
         'COMPROBAMOS LA RESPUESTA DEL MENSAJE
-        If MsgBox("Grupo         : " & TxtListNomGrupo.Text & vbCr &
-                  "Integrante  : " & DgvListIntgrntes.CurrentRow.Cells(1).Value & vbCr &
-                  "________________________________________" & vbCr & vbCr &
-                  "¿Seguro que quieres quitar de la lista?",
+        If MsgBox("   Grupo         : " & TxtListNomGrupo.Text & vbCr &
+                  "   Integrante  : " & DgvListIntgrntes.CurrentRow.Cells(1).Value & vbCr &
+                  "   __________________________________________" & vbCr & vbCr &
+                  "        ¿Seguro que quieres quitar de la lista?",
                   vbYesNo + vbDefaultButton2 + vbQuestion, "Lista de integrantes") = vbYes Then
             'SI LA RESPUESTA ES SI
 
@@ -420,7 +426,8 @@ Public Class FrmFamilyGroup
                     BtnGuardar.Enabled = True
 
                     'HACEMOS UNA CONSULTA Y LE PASAMOS A LA FUNCION PARA COMPROBAR SI YA EXISTE ESE GRUPO
-                    sqlConsulta = "SELECT * FROM grp_familiar WHERE nom_grp = '" & TxtListNomGrupo.Text & "'"
+                    sqlConsulta = "SELECT * FROM grp_familiar WHERE
+                                    nom_grp = '" & TxtListNomGrupo.Text & "'"
                     LlenarDgvListNomGrupo(sqlConsulta)
                 End If
 
@@ -452,7 +459,8 @@ Public Class FrmFamilyGroup
                         BtnActualizar.Enabled = True
 
                         'HACEMOS UNA CONSULTA Y LE PASAMOS A LA FUNCION PARA COMPROBAR SI YA EXISTE ESE GRUPO
-                        sqlConsulta = "SELECT * FROM grp_familiar WHERE nom_grp = '" & TxtListNomGrupo.Text & "'"
+                        sqlConsulta = "SELECT * FROM grp_familiar WHERE
+                                        nom_grp = '" & TxtListNomGrupo.Text & "'"
                         LlenarDgvListNomGrupo(sqlConsulta)
 
                         'SI EL DATAGRIDVIEW ESTA ACTIVADO ES PORQUE HAY UN REGISTRO CON EL MISMO
@@ -471,7 +479,7 @@ Public Class FrmFamilyGroup
                         'HACEMOS UNA CONSULTA A LA BBDD PARA MOSTRAR TODOS LOS GRUPO
                         'QUE COINCIDEN CON LA BUSQUEDA Y LE PASAMOS A LA FUNCION
                         sqlConsulta = "SELECT * FROM grp_familiar WHERE
-                                  nom_grp LIKE '" & TxtListNomGrupo.Text & "%' ORDER BY nom_grp"
+                                        nom_grp LIKE '%" & TxtListNomGrupo.Text & "%' ORDER BY nom_grp"
                         LlenarDgvListNomGrupo(sqlConsulta)
 
                     End If
@@ -482,7 +490,7 @@ Public Class FrmFamilyGroup
                 'HACEMOS UNA CONSULTA A LA BBDD PARA MOSTRAR TODOS LOS GRUPO
                 'QUE COINCIDEN CON LA BUSQUEDA Y LE PASAMOS A LA FUNCION
                 sqlConsulta = "SELECT * FROM grp_familiar WHERE
-                            nom_grp LIKE '" & TxtListNomGrupo.Text & "%' ORDER BY nom_grp"
+                                nom_grp LIKE '%" & TxtListNomGrupo.Text & "%' ORDER BY nom_grp"
                 LlenarDgvListNomGrupo(sqlConsulta)
 
                 'COMPROBAMOS SI EL TEXTBOX ESTA VACIO OCULTAMOS EL DATAGRIDVIEW
@@ -764,7 +772,7 @@ Public Class FrmFamilyGroup
 
                 'HACEMOS LA CONSULTA PARA LLENAR EL DATAGRIDVIEW
                 sqlConsulta = "SELECT id_cli, nom_cli, ape_cli, id_grp FROM clientes
-                              WHERE id_grp = '" & Lblidgrp.Text & "'"
+                                WHERE id_grp = '" & Lblidgrp.Text & "'"
                 cmdCommand = New MySqlCommand(sqlConsulta, cnxnMySql)
                 drDataReader = cmdCommand.ExecuteReader()
                 DgvListIntgrntes.Rows.Clear()
@@ -994,9 +1002,10 @@ Public Class FrmFamilyGroup
             cnxnMySql.Open()
 
             'HACEMOS LA CONSULTA PARA LLENAR EL DATAGRIDVIEW
-            sqlConsulta = "SELECT id_cli, nom_cli, ape_cli, id_grp FROM clientes
-                          WHERE (nom_cli LIKE '" & TxtBscrIntgrntes.Text & "%' OR ape_cli LIKE '" & TxtBscrIntgrntes.Text & "%') 
-                          AND id_grp IS NULL ORDER BY nom_cli"
+            sqlConsulta = "SELECT id_cli, nom_cli, ape_cli, id_grp FROM clientes WHERE
+                            (nom_cli LIKE '" & TxtBscrIntgrntes.Text & "%' OR
+                            ape_cli LIKE '" & TxtBscrIntgrntes.Text & "%') 
+                            AND id_grp IS NULL ORDER BY nom_cli"
             'mpg_cli, ISNULL(id_grp) 
             cmdCommand = New MySqlCommand(sqlConsulta, cnxnMySql)
             drDataReader = cmdCommand.ExecuteReader()

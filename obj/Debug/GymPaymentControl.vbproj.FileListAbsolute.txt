@@ -1,5 +1,4 @@
 C:\Users\Jinkis\Desktop\GymPaymentControl\obj\Debug\GymPaymentControl.vbproj.AssemblyReference.cache
-C:\Users\Jinkis\Desktop\GymPaymentControl\obj\Debug\GymPaymentControl.Form1.resources
 C:\Users\Jinkis\Desktop\GymPaymentControl\obj\Debug\GymPaymentControl.FrmMain.resources
 C:\Users\Jinkis\Desktop\GymPaymentControl\obj\Debug\GymPaymentControl.FrmPresentation.resources
 C:\Users\Jinkis\Desktop\GymPaymentControl\obj\Debug\GymPaymentControl.FrmUserPassword.resources
@@ -19,3 +18,6 @@ C:\Users\Jinkis\Desktop\GymPaymentControl\obj\Debug\GymPaymentControl.exe
 C:\Users\Jinkis\Desktop\GymPaymentControl\obj\Debug\GymPaymentControl.xml
 C:\Users\Jinkis\Desktop\GymPaymentControl\obj\Debug\GymPaymentControl.pdb
 C:\Users\Jinkis\Desktop\GymPaymentControl\obj\Debug\GymPaymentControl.exe.config
+C:\Users\Jinkis\Desktop\GymPaymentControl\obj\Debug\GymPaymentControl.FrmNewModifyClient.resources
+C:\Users\Jinkis\Desktop\GymPaymentControl\obj\Debug\GymPaymentControl.FrmDiscountTable.resources
+C:\Users\Jinkis\Desktop\GymPaymentControl\obj\Debug\GymPaymentControl.FrmFamilyGroup.resources

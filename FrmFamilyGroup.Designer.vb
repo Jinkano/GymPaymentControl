@@ -47,6 +47,8 @@ Partial Class FrmFamilyGroup
         Me.Lblidgrp = New System.Windows.Forms.Label()
         Me.ChkGrpVacioNombre = New System.Windows.Forms.CheckBox()
         Me.Lblidcli = New System.Windows.Forms.Label()
+        Me.PicIntgrntes = New System.Windows.Forms.PictureBox()
+        Me.BtnQuitarElmnto = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.DgvListIntgrntes = New System.Windows.Forms.DataGridView()
         Me.ColIdCli = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -62,8 +64,6 @@ Partial Class FrmFamilyGroup
         Me.BtnCancelar = New System.Windows.Forms.Button()
         Me.BtnCerrar = New System.Windows.Forms.Button()
         Me.BtnEliminar = New System.Windows.Forms.Button()
-        Me.PicIntgrntes = New System.Windows.Forms.PictureBox()
-        Me.BtnQuitarElmnto = New System.Windows.Forms.Button()
         Me.BtnModificar = New System.Windows.Forms.Button()
         Me.BtnNuevo = New System.Windows.Forms.Button()
         Me.BtnGuardar = New System.Windows.Forms.Button()
@@ -72,9 +72,9 @@ Partial Class FrmFamilyGroup
         CType(Me.NudNumIntgrntes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DgvBscrIntgrntes, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PnlGrpFamiliar.SuspendLayout()
+        CType(Me.PicIntgrntes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DgvListIntgrntes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DgvListNomGrupo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PicIntgrntes, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'LblNumIntgrntes
@@ -187,6 +187,7 @@ Partial Class FrmFamilyGroup
         Me.DgvBscrIntgrntes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DgvBscrIntgrntes.Size = New System.Drawing.Size(440, 208)
         Me.DgvBscrIntgrntes.TabIndex = 5
+        Me.ToolTip.SetToolTip(Me.DgvBscrIntgrntes, "DOBLE CLICK PARA SELECCIONAR UN CLIENTE")
         Me.DgvBscrIntgrntes.Visible = False
         '
         'ColBidCli
@@ -270,6 +271,29 @@ Partial Class FrmFamilyGroup
         Me.Lblidcli.Text = "Lblidcli"
         Me.Lblidcli.Visible = False
         '
+        'PicIntgrntes
+        '
+        Me.PicIntgrntes.Location = New System.Drawing.Point(466, 42)
+        Me.PicIntgrntes.Name = "PicIntgrntes"
+        Me.PicIntgrntes.Size = New System.Drawing.Size(24, 24)
+        Me.PicIntgrntes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PicIntgrntes.TabIndex = 7
+        Me.PicIntgrntes.TabStop = False
+        '
+        'BtnQuitarElmnto
+        '
+        Me.BtnQuitarElmnto.Enabled = False
+        Me.BtnQuitarElmnto.FlatAppearance.BorderSize = 0
+        Me.BtnQuitarElmnto.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnQuitarElmnto.Image = Global.GymPaymentControl.My.Resources.Resources.ic_remove_30x30
+        Me.BtnQuitarElmnto.Location = New System.Drawing.Point(466, 235)
+        Me.BtnQuitarElmnto.Margin = New System.Windows.Forms.Padding(0, 0, 10, 0)
+        Me.BtnQuitarElmnto.Name = "BtnQuitarElmnto"
+        Me.BtnQuitarElmnto.Size = New System.Drawing.Size(35, 35)
+        Me.BtnQuitarElmnto.TabIndex = 7
+        Me.ToolTip.SetToolTip(Me.BtnQuitarElmnto, "QUITAR FAMILIAR DE LA LISTA")
+        Me.BtnQuitarElmnto.UseVisualStyleBackColor = True
+        '
         'Label1
         '
         Me.Label1.AutoSize = True
@@ -331,6 +355,7 @@ Partial Class FrmFamilyGroup
         Me.DgvListIntgrntes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DgvListIntgrntes.Size = New System.Drawing.Size(440, 175)
         Me.DgvListIntgrntes.TabIndex = 6
+        Me.ToolTip.SetToolTip(Me.DgvListIntgrntes, "CLICK PARA SELECCIONAR UN FAMILIAR")
         '
         'ColIdCli
         '
@@ -417,6 +442,7 @@ Partial Class FrmFamilyGroup
         Me.DgvListNomGrupo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DgvListNomGrupo.Size = New System.Drawing.Size(440, 309)
         Me.DgvListNomGrupo.TabIndex = 2
+        Me.ToolTip.SetToolTip(Me.DgvListNomGrupo, "DOBLE CLICK PARA SELECCIONAR UN GRUPO")
         Me.DgvListNomGrupo.Visible = False
         '
         'ColIdGrupo
@@ -494,29 +520,6 @@ Partial Class FrmFamilyGroup
         Me.BtnEliminar.Text = "&Eliminar"
         Me.BtnEliminar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BtnEliminar.UseVisualStyleBackColor = True
-        '
-        'PicIntgrntes
-        '
-        Me.PicIntgrntes.Location = New System.Drawing.Point(466, 42)
-        Me.PicIntgrntes.Name = "PicIntgrntes"
-        Me.PicIntgrntes.Size = New System.Drawing.Size(24, 24)
-        Me.PicIntgrntes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PicIntgrntes.TabIndex = 7
-        Me.PicIntgrntes.TabStop = False
-        '
-        'BtnQuitarElmnto
-        '
-        Me.BtnQuitarElmnto.Enabled = False
-        Me.BtnQuitarElmnto.FlatAppearance.BorderSize = 0
-        Me.BtnQuitarElmnto.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnQuitarElmnto.Image = Global.GymPaymentControl.My.Resources.Resources.ic_remove_30x30
-        Me.BtnQuitarElmnto.Location = New System.Drawing.Point(466, 235)
-        Me.BtnQuitarElmnto.Margin = New System.Windows.Forms.Padding(0, 0, 10, 0)
-        Me.BtnQuitarElmnto.Name = "BtnQuitarElmnto"
-        Me.BtnQuitarElmnto.Size = New System.Drawing.Size(35, 35)
-        Me.BtnQuitarElmnto.TabIndex = 7
-        Me.ToolTip.SetToolTip(Me.BtnQuitarElmnto, "QUITAR FAMILIAR DE LA LISTA")
-        Me.BtnQuitarElmnto.UseVisualStyleBackColor = True
         '
         'BtnModificar
         '
@@ -621,9 +624,9 @@ Partial Class FrmFamilyGroup
         CType(Me.DgvBscrIntgrntes, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PnlGrpFamiliar.ResumeLayout(False)
         Me.PnlGrpFamiliar.PerformLayout()
+        CType(Me.PicIntgrntes, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DgvListIntgrntes, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DgvListNomGrupo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PicIntgrntes, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
