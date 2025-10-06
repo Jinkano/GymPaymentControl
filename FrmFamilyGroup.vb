@@ -46,24 +46,18 @@ Public Class FrmFamilyGroup
 
         'SI EL NUMERICUPDOWN ES MENOR QUE 3 NO PODEMOS GUARDAR EL NUEVO REGISTRO
         If NudNumIntgrntes.Value < 3 Then
-
             'MOSTRAMOS MENSAJE DE ERROR
             MsgBox("El número de integrantes no puede ser nemor que tres.", vbCritical, "Nuevo registro")
-
             'ENVIAMOS EL ENFOQUE AL NUMERICUPDOWN Y SALTAMOS AL FINAL DEL CÓDIGO
             NudNumIntgrntes.Focus() : Exit Sub
-
         End If
 
         'HACEMOS COMPROBACINES ANTES DE GUARDAR EL GRUPO Y ACTUALIZAR LOS CLIENTES
         If LblNumIntgrntes.BackColor = Color.MistyRose Then
-
             'MOSTRAMOS MENSAJE DE ERROR
             MsgBox("Agrega INTEGRANTES a la lista", vbCritical, "Nuevo registro")
-
             'ENVIAMOS EL ENFOQUE AL NUMERICUPDOWN Y SALTAMOS AL FINAL DEL CÓDIGO
             TxtBscrIntgrntes.Focus() : Exit Sub
-
         End If
 
         'PARA CAPTURAR POSIBLES ERRORES
@@ -71,6 +65,22 @@ Public Class FrmFamilyGroup
             'CONECTAMOS CON LA BBDD Y LO ABRIMOS
             cnxnMySql.ConnectionString = "server=localhost; user=root; password=MS-x51179m; database=control_pagos"
             cnxnMySql.Open()
+
+            'COMPROBAMOS SI EXISTE UNA TARIFA CON EL NÚMERO DE INTEGRANTES
+            sqlConsulta = "SELECT nperson_trfa FROM trfa_dscto WHERE nperson_trfa = '" & NudNumIntgrntes.Value & "'"
+            cmdCommand = New MySqlCommand(sqlConsulta, cnxnMySql)
+            drDataReader = cmdCommand.ExecuteReader()
+            If Not drDataReader.HasRows Then
+                If MsgBox("   No hay una tarifa para " & NudNumIntgrntes.Value & " integrantes." & vbCr &
+                          "   ______________________________________" & vbCr & vbCr &
+                          "                ¿Quieres agergar una tarifa?",
+                            vbYesNo + vbDefaultButton2 + vbExclamation, "Lista de integrantes") = vbYes Then
+                    FrmDiscountTable.Show()
+                End If
+                drDataReader.Close()
+                Exit Try
+            End If
+            drDataReader.Close()
 
             'HACEMOS LA CONSULTA PARA GUARDAR EL NUEVO GRUPO
             sqlConsulta = "INSERT INTO grp_familiar
@@ -122,14 +132,16 @@ Public Class FrmFamilyGroup
             MsgBox("El nuevo grupo familiar se ha registrado correctamente.", vbInformation, "Nuevo registro")
 
         Catch ex As Exception
-
             'MUESTRA UN MENSAJE CON EL ERROR CAPTURADO
             MsgBox(ex.ToString)
         Finally
-
-            'CERRAMOS LA BBDD
+            'CERRAMOS EL DATAREADER Y LA BBDD
+            'drDataReader.Close()
             cnxnMySql.Close()
         End Try
+
+        'PASAMOS EL NOMBRE DEL GRUPO AL FORMULARIO FrmNuevoEditarCliente
+        FrmNewModifyClient.RbGrupoFamiliar.Checked = True
 
     End Sub
 

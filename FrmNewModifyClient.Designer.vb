@@ -32,6 +32,10 @@ Partial Class FrmNewModifyClient
         Me.DtpFdi = New System.Windows.Forms.DateTimePicker()
         Me.LblFinscripcion = New System.Windows.Forms.Label()
         Me.GbMetodoPago = New System.Windows.Forms.GroupBox()
+        Me.RbDiario = New System.Windows.Forms.RadioButton()
+        Me.RbMensual = New System.Windows.Forms.RadioButton()
+        Me.RbGrupoFamiliar = New System.Windows.Forms.RadioButton()
+        Me.BtnAddGrupo = New System.Windows.Forms.Button()
         Me.GbListaGrupoFamiliar = New System.Windows.Forms.GroupBox()
         Me.LblNumIntgrntes = New System.Windows.Forms.Label()
         Me.TxtListaNombre = New System.Windows.Forms.TextBox()
@@ -59,10 +63,6 @@ Partial Class FrmNewModifyClient
         Me.LblNombre = New System.Windows.Forms.Label()
         Me.BtnGuardar = New System.Windows.Forms.Button()
         Me.BtnActualizar = New System.Windows.Forms.Button()
-        Me.RbDiario = New System.Windows.Forms.RadioButton()
-        Me.RbMensual = New System.Windows.Forms.RadioButton()
-        Me.RbGrupoFamiliar = New System.Windows.Forms.RadioButton()
-        Me.BtnAddGrupo = New System.Windows.Forms.Button()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.GbOtros.SuspendLayout()
         Me.GbMetodoPago.SuspendLayout()
@@ -171,6 +171,66 @@ Partial Class FrmNewModifyClient
         Me.GbMetodoPago.TabIndex = 9
         Me.GbMetodoPago.TabStop = False
         Me.GbMetodoPago.Text = "Método de pago"
+        '
+        'RbDiario
+        '
+        Me.RbDiario.Appearance = System.Windows.Forms.Appearance.Button
+        Me.RbDiario.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RbDiario.Image = Global.GymPaymentControl.My.Resources.Resources.ic_daily_27x30
+        Me.RbDiario.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.RbDiario.Location = New System.Drawing.Point(24, 27)
+        Me.RbDiario.Margin = New System.Windows.Forms.Padding(24, 12, 0, 0)
+        Me.RbDiario.Name = "RbDiario"
+        Me.RbDiario.Padding = New System.Windows.Forms.Padding(30, 0, 30, 0)
+        Me.RbDiario.Size = New System.Drawing.Size(160, 40)
+        Me.RbDiario.TabIndex = 0
+        Me.RbDiario.Text = "Diario"
+        Me.RbDiario.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.RbDiario.UseVisualStyleBackColor = True
+        '
+        'RbMensual
+        '
+        Me.RbMensual.Appearance = System.Windows.Forms.Appearance.Button
+        Me.RbMensual.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RbMensual.Image = Global.GymPaymentControl.My.Resources.Resources.ic_monthly_30x30
+        Me.RbMensual.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.RbMensual.Location = New System.Drawing.Point(192, 27)
+        Me.RbMensual.Margin = New System.Windows.Forms.Padding(8, 0, 24, 0)
+        Me.RbMensual.Name = "RbMensual"
+        Me.RbMensual.Padding = New System.Windows.Forms.Padding(20, 0, 20, 0)
+        Me.RbMensual.Size = New System.Drawing.Size(160, 40)
+        Me.RbMensual.TabIndex = 1
+        Me.RbMensual.Text = "Mensual"
+        Me.RbMensual.UseVisualStyleBackColor = True
+        '
+        'RbGrupoFamiliar
+        '
+        Me.RbGrupoFamiliar.Appearance = System.Windows.Forms.Appearance.Button
+        Me.RbGrupoFamiliar.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RbGrupoFamiliar.Image = Global.GymPaymentControl.My.Resources.Resources.ic_family_group_53x30
+        Me.RbGrupoFamiliar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.RbGrupoFamiliar.Location = New System.Drawing.Point(24, 75)
+        Me.RbGrupoFamiliar.Margin = New System.Windows.Forms.Padding(0, 8, 0, 0)
+        Me.RbGrupoFamiliar.Name = "RbGrupoFamiliar"
+        Me.RbGrupoFamiliar.Padding = New System.Windows.Forms.Padding(25, 0, 25, 0)
+        Me.RbGrupoFamiliar.Size = New System.Drawing.Size(230, 40)
+        Me.RbGrupoFamiliar.TabIndex = 2
+        Me.RbGrupoFamiliar.Text = "Grupo familiar"
+        Me.RbGrupoFamiliar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.RbGrupoFamiliar.UseVisualStyleBackColor = True
+        '
+        'BtnAddGrupo
+        '
+        Me.BtnAddGrupo.Enabled = False
+        Me.BtnAddGrupo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnAddGrupo.Image = Global.GymPaymentControl.My.Resources.Resources.ic_add_group_37x30
+        Me.BtnAddGrupo.Location = New System.Drawing.Point(262, 75)
+        Me.BtnAddGrupo.Margin = New System.Windows.Forms.Padding(8, 0, 0, 0)
+        Me.BtnAddGrupo.Name = "BtnAddGrupo"
+        Me.BtnAddGrupo.Size = New System.Drawing.Size(90, 40)
+        Me.BtnAddGrupo.TabIndex = 4
+        Me.ToolTip.SetToolTip(Me.BtnAddGrupo, "AGREGAR NUEVO GRUPO FAMILIAR")
+        Me.BtnAddGrupo.UseVisualStyleBackColor = True
         '
         'GbListaGrupoFamiliar
         '
@@ -549,66 +609,6 @@ Partial Class FrmNewModifyClient
         Me.BtnActualizar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.BtnActualizar.UseVisualStyleBackColor = False
         '
-        'RbDiario
-        '
-        Me.RbDiario.Appearance = System.Windows.Forms.Appearance.Button
-        Me.RbDiario.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RbDiario.Image = Global.GymPaymentControl.My.Resources.Resources.ic_daily_27x30
-        Me.RbDiario.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.RbDiario.Location = New System.Drawing.Point(24, 27)
-        Me.RbDiario.Margin = New System.Windows.Forms.Padding(24, 12, 0, 0)
-        Me.RbDiario.Name = "RbDiario"
-        Me.RbDiario.Padding = New System.Windows.Forms.Padding(30, 0, 30, 0)
-        Me.RbDiario.Size = New System.Drawing.Size(160, 40)
-        Me.RbDiario.TabIndex = 0
-        Me.RbDiario.Text = "Diario"
-        Me.RbDiario.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.RbDiario.UseVisualStyleBackColor = True
-        '
-        'RbMensual
-        '
-        Me.RbMensual.Appearance = System.Windows.Forms.Appearance.Button
-        Me.RbMensual.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RbMensual.Image = Global.GymPaymentControl.My.Resources.Resources.ic_monthly_30x30
-        Me.RbMensual.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.RbMensual.Location = New System.Drawing.Point(192, 27)
-        Me.RbMensual.Margin = New System.Windows.Forms.Padding(8, 0, 24, 0)
-        Me.RbMensual.Name = "RbMensual"
-        Me.RbMensual.Padding = New System.Windows.Forms.Padding(20, 0, 20, 0)
-        Me.RbMensual.Size = New System.Drawing.Size(160, 40)
-        Me.RbMensual.TabIndex = 1
-        Me.RbMensual.Text = "Mensual"
-        Me.RbMensual.UseVisualStyleBackColor = True
-        '
-        'RbGrupoFamiliar
-        '
-        Me.RbGrupoFamiliar.Appearance = System.Windows.Forms.Appearance.Button
-        Me.RbGrupoFamiliar.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RbGrupoFamiliar.Image = Global.GymPaymentControl.My.Resources.Resources.ic_family_group_53x30
-        Me.RbGrupoFamiliar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.RbGrupoFamiliar.Location = New System.Drawing.Point(24, 75)
-        Me.RbGrupoFamiliar.Margin = New System.Windows.Forms.Padding(0, 8, 0, 0)
-        Me.RbGrupoFamiliar.Name = "RbGrupoFamiliar"
-        Me.RbGrupoFamiliar.Padding = New System.Windows.Forms.Padding(25, 0, 25, 0)
-        Me.RbGrupoFamiliar.Size = New System.Drawing.Size(230, 40)
-        Me.RbGrupoFamiliar.TabIndex = 2
-        Me.RbGrupoFamiliar.Text = "Grupo familiar"
-        Me.RbGrupoFamiliar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.RbGrupoFamiliar.UseVisualStyleBackColor = True
-        '
-        'BtnAddGrupo
-        '
-        Me.BtnAddGrupo.Enabled = False
-        Me.BtnAddGrupo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnAddGrupo.Image = Global.GymPaymentControl.My.Resources.Resources.ic_add_group_37x30
-        Me.BtnAddGrupo.Location = New System.Drawing.Point(262, 75)
-        Me.BtnAddGrupo.Margin = New System.Windows.Forms.Padding(8, 0, 0, 0)
-        Me.BtnAddGrupo.Name = "BtnAddGrupo"
-        Me.BtnAddGrupo.Size = New System.Drawing.Size(90, 40)
-        Me.BtnAddGrupo.TabIndex = 4
-        Me.ToolTip.SetToolTip(Me.BtnAddGrupo, "AGREGAR NUEVO GRUPO FAMILIAR")
-        Me.BtnAddGrupo.UseVisualStyleBackColor = True
-        '
         'FrmNewModifyClient
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -623,6 +623,7 @@ Partial Class FrmNewModifyClient
         Me.Controls.Add(Me.BtnActualizar)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "FrmNewModifyClient"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "REGISTRO Y ACTUALIZACIÓN DE USUARIOS"

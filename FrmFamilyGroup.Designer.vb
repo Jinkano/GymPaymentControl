@@ -617,6 +617,7 @@ Partial Class FrmFamilyGroup
         Me.Controls.Add(Me.BtnDeleteGroup)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "FrmFamilyGroup"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "AGREGAR, MODIFICAR O ELIMINAR UN GRUPO FAMILIAR"
