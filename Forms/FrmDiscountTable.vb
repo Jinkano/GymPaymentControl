@@ -1,22 +1,39 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports System.ComponentModel
+Imports MySql.Data.MySqlClient
 
 Public Class FrmDiscountTable
 
     Dim cnxnMySql As New MySqlConnection
     Dim drDataReader As MySqlDataReader
     Dim cmdCommand As MySqlCommand
-    Dim nRow, idTarifa, intMsgBox, nudMin, nudMax As Int16
+    Dim nRow, idTarifa, nudMin, nudMax As Int16
     Dim precio, dscnto, apagar, pdMin, pdMax, fijoMes As Decimal
     Dim sqlConsulta, strCadena, strMsgBox, strBandera As String
-
+    '
+    '
+    '
     Private Sub FrmDiscountTable_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        LlenarDgvTarifas() 'LLENAR GRILLA CON LAS TARIFAS
-
-        BtnGuarActuCancElim() 'LLAMA FUNCIÓN ACTIVAR/DESACTIVAR BOTONES
+        '| Llenamos el DgvTabla con las tarifas guardadas en la BBDD llamando a la función LlenarDgvTarifas)
+        '| Llamamos a la función BtnGuarActuCancElim() para activar y desactivar los buttons.
+        LlenarDgvTarifas()
+        BtnGuarActuCancElim()
 
     End Sub
+    Private Sub FrmDiscountTable_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
 
+        '| Comprobamos si el BtnClientesPagos del FrmMain está desactivado y el DgvTabla no esté _
+        '| _ vacío si se cumplen las dos condiciones, activamos los botones BtnClientesPagos y _
+        '| _ BtnPagoPendiente del FrmMain.
+
+        If FrmMain.BtnClientesPagos.Enabled = False And DgvTabla.RowCount > 0 Then
+            FrmMain.BtnClientesPagos.Enabled = True
+            FrmMain.BtnPagoPendiente.Enabled = True
+        End If
+    End Sub
+    '
+    '
+    '
     Private Sub CmbTipoPago_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbTipoPago.SelectedIndexChanged
     End Sub
     Private Sub CmbTipoPago_TextChanged(sender As Object, e As EventArgs) Handles CmbTipoPago.TextChanged
@@ -68,10 +85,12 @@ Public Class FrmDiscountTable
                 TxtPrecio.Focus()
         End Select
     End Sub
-
+    '
+    '
+    '
     Private Sub TxtPrecio_TextChanged(sender As Object, e As EventArgs) Handles TxtPrecio.TextChanged
 
-        'EVALUAMOS LA VARIABLE PARA CALCULAR EL PRECIO APAGAR
+        '| Evaluamos la variable strBandera para calcular el precio apagar
         If strBandera = "SELECT REG" Then Exit Sub
 
         'LLAMAR A LA FUNCIÓN PARA NO PONER LA COMA SIN NÚMEROS Y NO ACEPTAR DOS COMAS
@@ -107,22 +126,21 @@ Public Class FrmDiscountTable
         FuenteErrorOk(TxtPrecio, precio, pdMin, pdMax)
 
     End Sub
-
     Private Sub TxtPrecio_GotFocus(sender As Object, e As EventArgs) Handles TxtPrecio.GotFocus
 
         TxtPrecio.SelectAll() 'SELECCIONA TODO EL TEXTO AL RECIBIR EL ENFOQUE
     End Sub
-
     Private Sub TxtPrecio_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtPrecio.KeyPress
 
         SoloNumeros(TxtPrecio.Text, e) 'FUNCIÓN PARA ADMITIR SOLO NÚMEROS
     End Sub
-
     Private Sub TxtPrecio_LostFocus(sender As Object, e As EventArgs) Handles TxtPrecio.LostFocus
 
         If TxtPrecio.Text = "" Then TxtPrecio.Text = "0" 'SI EL PRECIO ESTA VACIO LE ASIGNA CERO
     End Sub
-
+    '
+    '
+    '
     Private Sub TxtDscnto_TextChanged(sender As Object, e As EventArgs) Handles TxtDscnto.TextChanged
 
         'EVALUAMOS LA VARIABLE PARA CALCULAR EL PRECIO APAGAR
@@ -164,19 +182,19 @@ Public Class FrmDiscountTable
 
         strBandera = "DESCUENTO" 'LLENAMOS LA VARIABLE PARA PODER CALCULAR EL PRECIO A PAGAR
     End Sub
-
     Private Sub TxtDscnto_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtDscnto.KeyPress
 
         SoloNumeros(TxtDscnto.Text, e) 'FUNCIÓN PARA ADMITIR SOLO NÚMEROS
     End Sub
-
     Private Sub TxtDscnto_LostFocus(sender As Object, e As EventArgs) Handles TxtDscnto.LostFocus
 
         'AL PERDER EL ENFOQUE, SI ESTÁ VACIO LE ASIGNA CERO
         If TxtDscnto.Text = "" Then TxtDscnto.Text = "0" : TxtApagar.Text = ""
 
     End Sub
-
+    '
+    '
+    '
     Private Sub TxtApagar_TextChanged(sender As Object, e As EventArgs) Handles TxtApagar.TextChanged
 
         'EVALUAMOS LA VARIABLE PARA CALCULAR EL DESCUENTO
@@ -212,33 +230,31 @@ Public Class FrmDiscountTable
         If TxtApagar.Text = "" Then TxtDscnto.Text = ""
 
     End Sub
-
     Private Sub TxtApagar_GotFocus(sender As Object, e As EventArgs) Handles TxtApagar.GotFocus
 
         TxtApagar.SelectAll() 'AL RECIBIR EL ENFOQUE SELECCIONA TODO EL TEXTO
 
         strBandera = "APAGAR" 'LLENAMOS LA VARIABLE PARA PODER CALCULAR EL DESCUENTO
     End Sub
-
     Private Sub TxtApagar_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtApagar.KeyPress
 
         SoloNumeros(TxtApagar.Text, e) 'FUNCIÓN PARA ADMITIR SOLO NÚMEROS
     End Sub
-
     Private Sub TxtApagar_LostFocus(sender As Object, e As EventArgs) Handles TxtApagar.LostFocus
 
         'AL PERDER EL ENFOQUE, SI ESTÁ VACIO LE ASIGNA CERO
         If TxtApagar.Text = "" Then TxtApagar.Text = "0" : TxtDscnto.Text = ""
 
     End Sub
-
+    '
+    '
+    '
     Private Sub NudIntgrnts_ValueChanged(sender As Object, e As EventArgs) Handles NudNumPerson.ValueChanged
     End Sub
     Private Sub NudIntgrnts_GotFocus(sender As Object, e As EventArgs) Handles NudNumPerson.GotFocus
 
         NudNumPerson.Select(0, 2) 'SELECCIONA TODO EL TEXTO AL RECIBIR EL EMFOQUE
     End Sub
-
     Private Sub NudIntgrnts_TextChanged(sender As Object, e As EventArgs) Handles NudNumPerson.TextChanged
 
         If strBandera = "SELECT REG" Then Exit Sub
@@ -248,35 +264,39 @@ Public Class FrmDiscountTable
         TxtTotal.Text = FormatCurrency(fijoMes * NudNumPerson.Value) 'MULTIPLICA EL PRECIO POR EL Nº DE INTEGRANTES
 
     End Sub
-
+    '
+    '
+    '
     Private Sub NudEdadMin_ValueChanged(sender As Object, e As EventArgs) Handles NudEdadMin.ValueChanged
     End Sub
     Private Sub NudEdadMin_GotFocus(sender As Object, e As EventArgs) Handles NudEdadMin.GotFocus
 
         NudEdadMin.Select(0, 2) 'SELECCIONA TODO EL TEXTO AL RECIBIR EL EMFOQUE
     End Sub
-
     Private Sub NudEdadMin_TextChanged(sender As Object, e As EventArgs) Handles NudEdadMin.TextChanged
 
         If strBandera = "SELECT REG" Then Exit Sub
 
         LblNomPago.Text = "DSCTO EDAD " & NudEdadMin.Value & "-" & NudEdadMax.Value 'LE ASIGNA EL NOMBRE DEL PAGO
     End Sub
-
+    '
+    '
+    '
     Private Sub NudEdadMax_ValueChanged(sender As Object, e As EventArgs) Handles NudEdadMax.ValueChanged
     End Sub
     Private Sub NudEdadMax_GotFocus(sender As Object, e As EventArgs) Handles NudEdadMax.GotFocus
 
         NudEdadMax.Select(0, 2) 'SELECCIONA TODO EL TEXTO AL RECIBIR EL EMFOQUE
     End Sub
-
     Private Sub NudEdadMax_TextChanged(sender As Object, e As EventArgs) Handles NudEdadMax.TextChanged
 
         If strBandera = "SELECT REG" Then Exit Sub
 
         LblNomPago.Text = "DSCTO EDAD " & NudEdadMin.Value & "-" & NudEdadMax.Value 'LE ASIGNA EL NOMBRE DEL PAGO
     End Sub
-
+    '
+    '
+    '
     Private Sub BtnNuevo_Click(sender As Object, e As EventArgs) Handles BtnNuevo.Click
 
         LimpiarCuadros() 'LLAMA FUNCION LIMPIAR TEXTOS
@@ -304,7 +324,7 @@ Public Class FrmDiscountTable
     Private Sub BtnModificar_Click(sender As Object, e As EventArgs) Handles BtnModificar.Click
 
         'COMPROBAR SI HAY REGISTRO SELECCIONADO
-        If idTarifa = 0 Then MsgBox("Selecciona un registro de la lista para MODIFICAR.", vbCritical, "Verificar") : DgvTabla.Focus() : Exit Sub
+        If idTarifa = 0 Then MsgBox("   Selecciona un registro de la lista para MODIFICAR.", vbCritical, "Verificar") : DgvTabla.Focus() : Exit Sub
 
         strBandera = "" 'LIMPIAMOS LA VARIBLE
 
@@ -333,13 +353,12 @@ Public Class FrmDiscountTable
             nudMax = NudNumPerson.Value
 
         Else
-            intMsgBox = MsgBox("Vas a modificar el PRECIO FIJO." + vbCr +
-                               "Se modificarán todas las tarifas con el nuevo precio.." + vbCr + vbCr +
-                               "¿Estás seguro de modificar el precio fijo?" _
-                               , vbQuestion + vbYesNo + vbDefaultButton2, "Advertencia")
-
             'COMPROBAMOS LA RESPUESTA DEL USUARIO PARA MODIFICAR O NO HACER NADA
-            If intMsgBox = vbYes Then
+            If MsgBox("   Vas a modificar el PRECIO FIJO." + vbCr +
+                      "   Se modificarán todas las tarifas con el nuevo precio." + vbCr +
+                      "   ______________________________________________________" & vbCr & vbCr &
+                      "                  ¿Estás seguro de modificar el precio fijo?" _
+                               , vbExclamation + vbYesNo + vbDefaultButton2, "Advertencia") = vbYes Then
 
                 TxtPrecio.Enabled = True
                 TxtPrecio.Focus()
@@ -368,7 +387,7 @@ Public Class FrmDiscountTable
 
             Case 1 'SI SE SELECCIONA EL PRECIO FIJO
                 MsgBox("No se puede ELIMINAR el precio fijo mensual." + vbCr + vbCr +
-                       "Puedes MODIFICAR el valor del precio establecido.", vbInformation, "Advertencia")
+                       "Puedes MODIFICAR el valor del precio establecido.", vbCritical, "Advertencia")
                 DgvTabla.Focus()
 
             Case Else 'SI SE SELECCIONA UN REGISTRO DIFERENTE AL PRECIO FIJO
@@ -419,11 +438,8 @@ Public Class FrmDiscountTable
                                    "¿Está seguro de ELIMINAR el registro?"
                 End If
 
-                'MENSAJE DE CONFIRMACION ANTES DE ELIMINAR
-                intMsgBox = MsgBox(strMsgBox, vbQuestion + vbYesNo + vbDefaultButton2, "Eliminar un registro")
-
-                'COMPROBAMOS LA RESPUESTA DEL MENSAJE
-                If intMsgBox = vbYes Then
+                'COMPROBAMOS LA RESPUESTA DEL MENSAJE DE ELIMINAR
+                If MsgBox(strMsgBox, vbQuestion + vbYesNo + vbDefaultButton2, "Eliminar un registro") = vbYes Then
 
                     'CONSULTAMOS A LA BBDD Y LO PASAMOS A LA FUNCION
                     sqlConsulta = "DELETE FROM trfa_dscto WHERE id_trfa  = '" & idTarifa & "'"
@@ -437,6 +453,7 @@ Public Class FrmDiscountTable
 
                     DesactivarCuadros() 'DESACTIVA LOS CUADROS DE TEXTO
 
+                    idTarifa = 0 'LIMPIAMOS LA VARIABLE PARA LA PROXIMA CONSULTA
                 End If
         End Select
 
@@ -447,56 +464,56 @@ Public Class FrmDiscountTable
         Select Case CmbTipoPago.Text
             Case "CLASES SUELTAS"
                 'COMPROBAR SI SE HA INGRESADO UN PRECIO
-                If TxtPrecio.Text = "0 €" Then MsgBox("Corrige el PRECIO de las Clases sueltas.", vbCritical, "Fijar precio") : TxtPrecio.Focus() : Exit Sub
+                If TxtPrecio.Text = "0 €" Then MsgBox("   Corrige el PRECIO de las Clases sueltas.", vbCritical, "Fijar precio") : TxtPrecio.Focus() : Exit Sub
 
                 'SI TODO ESTÁ CORRECTO SE ENVÍA MENSAJE DE CONFIRMACIÓN
-                strMsgBox = "La TARIFA fijada es de " & TxtPrecio.Text & " por día." & Chr(13) & Chr(13) &
-                            "El precio fijado se usará en los pagos de las Clases Sueltas."
+                strMsgBox = "   La TARIFA fijada es de " & TxtPrecio.Text & " por día." & Chr(13) & Chr(13) &
+                            "   El precio fijado se usará en los pagos de las Clases Sueltas."
 
             Case "DESCUENTO POR EDAD"
                 'COMPROBAR EL VALOR DEL CUADRO DE TEXTO DESCUENTO
-                If TxtDscnto.Text = "0 €" Then MsgBox("Corrige el DESCUENTO.", vbCritical, "Descuento por edad") : TxtDscnto.Focus() : Exit Sub
+                If TxtDscnto.Text = "0 €" Then MsgBox("   Corrige el DESCUENTO.", vbCritical, "Descuento por edad") : TxtDscnto.Focus() : Exit Sub
 
                 'COMPROBAR EL VALOR DE LA EDAD MINIMA
-                If NudEdadMin.Value <= 3 Then MsgBox("Verifica la edad MINIMA para el descuento.", vbCritical, "Descuento por edad") : NudEdadMin.Focus() : Exit Sub
+                If NudEdadMin.Value <= 3 Then MsgBox("   Verifica la edad MINIMA para el descuento.", vbCritical, "Descuento por edad") : NudEdadMin.Focus() : Exit Sub
 
                 'COMPROBAR EL VALOR DE LA EDAD MAXIMA
-                If NudEdadMax.Value <= NudEdadMin.Value Then MsgBox("Verifica la edad MAXIMA para el descuento.", vbCritical, "Descuento por edad") : NudEdadMax.Focus() : Exit Sub
+                If NudEdadMax.Value <= NudEdadMin.Value Then MsgBox("   Verifica la edad MAXIMA para el descuento.", vbCritical, "Descuento por edad") : NudEdadMax.Focus() : Exit Sub
 
                 'SI TODO ESTÁ CORRECTO SE ENVÍA MENSAJE DE CONFIRMACIÓN
-                strMsgBox = "Se ha guardado la tarifa correctamente." & Chr(13) & Chr(13) &
-                            "El intervalo de edad es de " & NudEdadMin.Value & " a " & NudEdadMax.Value & " años."
+                strMsgBox = "   Se ha guardado la tarifa correctamente." & Chr(13) & Chr(13) &
+                            "   El intervalo de edad es de " & NudEdadMin.Value & " a " & NudEdadMax.Value & " años."
 
             Case "GRUPO FAMILIAR"
                 'COMPROBAR SI EL NUMERO DE INTEGRANTES DEL GRUPO ES MAYOR A 3
-                If NudNumPerson.Value < 3 Then MsgBox("Para crear una tarifa grupal debe de haber mínimo 3 personas", vbCritical, "Grupo familiar") : NudNumPerson.Focus() : Exit Sub
+                If NudNumPerson.Value < 3 Then MsgBox("   Para crear una tarifa grupal debe de haber mínimo 3 personas", vbCritical, "Grupo familiar") : NudNumPerson.Focus() : Exit Sub
 
                 'COMPROBAR EL VALOR DEL CUADRO DE TEXTO DESCUENTO
-                If TxtDscnto.Text = "" Then MsgBox("Ingresa el DESCUENTO.", vbCritical, "Grupo familiar") : TxtDscnto.Focus() : Exit Sub
-                If TxtDscnto.Text = "0 €" Then MsgBox("Corrige el DESCUENTO.", vbCritical, "Grupo familiar") : TxtDscnto.Focus() : Exit Sub
+                If TxtDscnto.Text = "" Then MsgBox("   Ingresa el DESCUENTO.", vbCritical, "Grupo familiar") : TxtDscnto.Focus() : Exit Sub
+                If TxtDscnto.Text = "0 €" Then MsgBox("   Corrige el DESCUENTO.", vbCritical, "Grupo familiar") : TxtDscnto.Focus() : Exit Sub
 
                 'SI TODO ESTÁ CORRECTO SE ENVÍA MENSAJE DE CONFIRMACIÓN
-                strMsgBox = "El precio de la tarifa familiar es de " & TxtApagar.Text & Chr(13) & Chr(13) &
-                            "El descuento aplicado para " & NudNumPerson.Value & " personas es de " & TxtDscnto.Text & Chr(13) & Chr(13) &
-                            "Se ha guardado la tarifa correctamente."
+                strMsgBox = "   El precio de la tarifa familiar es de " & TxtApagar.Text & Chr(13) & Chr(13) &
+                            "   El descuento aplicado para " & NudNumPerson.Value & " personas es de " & TxtDscnto.Text & Chr(13) & Chr(13) &
+                            "   Se ha guardado la tarifa correctamente."
 
             Case "MENSUALIDAD + IMPLEMENTOS"
                 'COMPROBAR QUE LA TARIFA SEA MAYOR AL PRECIO MENSUAL.
-                If TxtPrecio.Text = "0 €" Then MsgBox("Corrige el PRECIO del bono.", vbCritical, "Mensualidad con implementos") : TxtPrecio.Focus() : Exit Sub
+                If TxtPrecio.Text = "0 €" Then MsgBox("   Corrige el PRECIO del bono.", vbCritical, "Mensualidad con implementos") : TxtPrecio.Focus() : Exit Sub
 
                 'SI TODO ESTÁ CORRECTO SE ENVÍA MENSAJE DE CONFIRMACIÓN
-                strMsgBox = "El precio del bono se ha establecido en " & TxtPrecio.Text & Chr(13) & Chr(13) &
-                            "El bono incluye la mensualidad mas implementos."
+                strMsgBox = "   El precio del bono se ha establecido en " & TxtPrecio.Text & Chr(13) & Chr(13) &
+                            "   El bono incluye la mensualidad mas implementos."
 
             Case Else
                 If DgvTabla.RowCount = 0 Then
                     'COMPROBAR SI HAY PRECIO
-                    If TxtPrecio.Text = "0 €" Then MsgBox("Corrige el PRECIO del pago mensual.", vbCritical, "Fijar precio") : TxtPrecio.Focus() : Exit Sub
-                    strMsgBox = "La TARIFA fijada es de " & TxtPrecio.Text & " mensuales." & Chr(13) & Chr(13) &
-                                "El precio se usará en todos los pagos de los clientes."
+                    If TxtPrecio.Text = "0 €" Then MsgBox("   Corrige el PRECIO del pago mensual.", vbCritical, "Fijar precio") : TxtPrecio.Focus() : Exit Sub
+                    strMsgBox = "   La TARIFA fijada es de " & TxtPrecio.Text & " mensuales." & Chr(13) & Chr(13) &
+                                "   El precio se usará en todos los pagos de los clientes."
                 Else
-                    MsgBox("No se puede guardar ninguna tarifa" & Chr(13) & Chr(13) &
-                           "Selecciona un Tipo de Pago de la lista.", vbCritical, "Tabla de precios y descuentos")
+                    MsgBox("   No se puede guardar ninguna tarifa" & Chr(13) & Chr(13) &
+                           "   Selecciona un Tipo de Pago de la lista.", vbCritical, "Tabla de precios y descuentos")
                     Exit Sub
                 End If
         End Select
@@ -508,9 +525,9 @@ Public Class FrmDiscountTable
 
                     DgvTabla.CurrentCell = DgvFila.Cells("ColTipoPago")
                     DgvFila.Selected = True
-                    MsgBox("No se puede GUARDAR la nueva tarifa." & vbCr & vbCr &
-                           "Ya existe un registro con este nombre : " & LblNomPago.Text & vbCr & vbCr &
-                           "Puedes ELIMINAR o MODIFICAR los datos del registro.",
+                    MsgBox("   No se puede GUARDAR la nueva tarifa." & vbCr & vbCr &
+                           "   Ya existe un registro con este nombre : " & LblNomPago.Text & vbCr & vbCr &
+                           "   Puedes ELIMINAR o MODIFICAR los datos del registro.",
                            vbCritical, "Error de registro")
                     TxtPrecio.Focus()
                     TxtDscnto.Focus()
@@ -562,30 +579,30 @@ Public Class FrmDiscountTable
         If strTpago(0) = "DIARIO" Then 'CLASES SUELTAS
 
             'COMPROBAR EL VALOR DEL CUADRO DE TEXTO PRECIO
-            If TxtPrecio.Text = "0 €" Then MsgBox("Corrige el PRECIO de la clase suelta.", vbCritical, "Actualizar clase suelta") : TxtPrecio.Focus() : Exit Sub
+            If TxtPrecio.Text = "0 €" Then MsgBox("   Corrige el PRECIO de la clase suelta.", vbCritical, "Actualizar clase suelta") : TxtPrecio.Focus() : Exit Sub
 
         ElseIf strTpago(0) = "DSCTO" Then 'DESCUENTO POR EDAD
 
             'COMPROBAR EL VALOR DEL CUADRO DE TEXTO DESCUENTO
-            If TxtDscnto.Text = "0 €" Then MsgBox("Corrige el valor del DESCUENTO.", vbCritical, "Actualizar descuento por edad") : TxtDscnto.Focus() : Exit Sub
+            If TxtDscnto.Text = "0 €" Then MsgBox("   Corrige el valor del DESCUENTO.", vbCritical, "Actualizar descuento por edad") : TxtDscnto.Focus() : Exit Sub
 
             'COMPROBAR EL VALOR DE LA EDAD MINIMA Y LA EDAD MAXIMA
-            If NudEdadMin.Value <= 3 Then MsgBox("Verifica la edad MINIMA para el descuento.", vbCritical, "Actualizar descuento por edad") : NudEdadMin.Focus() : Exit Sub
-            If NudEdadMax.Value <= NudEdadMin.Value Then MsgBox("Verifica la edad MAXIMA para el descuento.", vbCritical, "Actualizar descuento por edad") : NudEdadMax.Focus() : Exit Sub
+            If NudEdadMin.Value <= 3 Then MsgBox("   Verifica la edad MINIMA para el descuento.", vbCritical, "Actualizar descuento por edad") : NudEdadMin.Focus() : Exit Sub
+            If NudEdadMax.Value <= NudEdadMin.Value Then MsgBox("   Verifica la edad MAXIMA para el descuento.", vbCritical, "Actualizar descuento por edad") : NudEdadMax.Focus() : Exit Sub
 
         ElseIf strTpago(0) = "GRUPO" Then 'GRUPO FAMILIAR
 
             'COMPROBAR SI EL NUMERO DE INTEGRANTES DEL GRUPO ES MAYOR A 3
-            If NudNumPerson.Value < 3 Then MsgBox("Para actualizarla tarifa grupal debe de haber mínimo 3 personas.", vbCritical, "Actualizar grupo familiar") : NudNumPerson.Focus() : Exit Sub
+            If NudNumPerson.Value < 3 Then MsgBox("   Para actualizarla tarifa grupal debe de haber mínimo 3 personas.", vbCritical, "Actualizar grupo familiar") : NudNumPerson.Focus() : Exit Sub
 
             'COMPROBAR EL VALOR DEL CUADRO DE TEXTO DESCUENTO
-            If TxtDscnto.Text = "" Then MsgBox("Ingresa el DESCUENTO.", vbCritical, "Actualizar grupo familiar") : TxtDscnto.Focus() : Exit Sub
-            If TxtDscnto.Text = "0 €" Then MsgBox("Corrige el valor del DESCUENTO.", vbCritical, "Actualizar grupo familiar") : TxtDscnto.Focus() : Exit Sub
+            If TxtDscnto.Text = "" Then MsgBox("   Ingresa el DESCUENTO.", vbCritical, "Actualizar grupo familiar") : TxtDscnto.Focus() : Exit Sub
+            If TxtDscnto.Text = "0 €" Then MsgBox("   Corrige el valor del DESCUENTO.", vbCritical, "Actualizar grupo familiar") : TxtDscnto.Focus() : Exit Sub
 
         ElseIf strTpago(0) = "MES" Then 'MENSUALIDAD + IMPLEMENTOS
 
             'COMPROBAR EL VALOR DEL CUADRO DE TEXTO PRECIO
-            If TxtPrecio.Text = "0 €" Then MsgBox("Corrige el PRECIO del bono.", vbCritical, "Actualizar mensualidad con implementos") : TxtPrecio.Focus() : Exit Sub
+            If TxtPrecio.Text = "0 €" Then MsgBox("   Corrige el PRECIO del bono.", vbCritical, "Actualizar mensualidad con implementos") : TxtPrecio.Focus() : Exit Sub
         Else
 
             strBandera = "MENSUAL" 'LLENAMOS LA VARIABLE PARA PODER HACER LA CONSULTA A LA BBDD
@@ -601,9 +618,9 @@ Public Class FrmDiscountTable
 
                         DgvTabla.CurrentCell = DgvFila.Cells("ColTipoPago")
                         DgvFila.Selected = True
-                        MsgBox("No se puede ACTUALIZAR los datos de la tarifa." & vbCr & vbCr &
-                               "Ya existe un registro con este nombre : " & LblNomPago.Text & vbCr & vbCr &
-                               "Puedes ELIMINAR el registro.",
+                        MsgBox("   No se puede ACTUALIZAR los datos de la tarifa." & vbCr & vbCr &
+                               "   Ya existe un registro con este nombre : " & LblNomPago.Text & vbCr & vbCr &
+                               "   Puedes ELIMINAR el registro.",
                                vbCritical, "Error de registro")
                         TxtPrecio.Focus()
                         TxtDscnto.Focus()
@@ -654,7 +671,7 @@ Public Class FrmDiscountTable
 
         DesactivarCuadros() 'DESACTIVA LOS CUADROS DE TEXTO
 
-        MsgBox("Se ha modificado y ACTUALIZADO la tarifa correctamente.", vbInformation, "Actualizando") 'MENSAJE DE INFORMACIÓN
+        MsgBox("   Se ha modificado y ACTUALIZADO la tarifa correctamente.", vbInformation, "Actualizando") 'MENSAJE DE INFORMACIÓN
 
     End Sub
 
@@ -676,7 +693,9 @@ Public Class FrmDiscountTable
 
         Close() 'CIERRA EL FORMULARIO
     End Sub
-
+    '
+    '
+    '
     Private Sub DgvTabla_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvTabla.CellContentClick
     End Sub
     Private Sub DgvTabla_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvTabla.CellClick
@@ -685,19 +704,22 @@ Public Class FrmDiscountTable
         strBandera = "SELECT REG"
 
         'LLENAR INFORMACION
-        idTarifa = DgvTabla.CurrentRow.Cells(0).Value 'LLENAR VARIABLE CON ID TARIFA
-        LblNomPago.Text = DgvTabla.CurrentRow.Cells(1).Value 'NOMBRE PAGO
-        TxtPrecio.Text = DgvTabla.CurrentRow.Cells(2).Value 'PRECIO
-        NudEdadMin.Value = DgvTabla.CurrentRow.Cells(3).Value 'EDAD MINIMA
-        NudEdadMax.Value = DgvTabla.CurrentRow.Cells(4).Value 'EDAD MAXIMA
-        NudNumPerson.Value = DgvTabla.CurrentRow.Cells(5).Value 'Nº DE PERSONAS
-        TxtTotal.Text = DgvTabla.CurrentRow.Cells(6).Value 'TOTAL
-        TxtDscnto.Text = DgvTabla.CurrentRow.Cells(7).Value 'DESCUENTO
-        TxtApagar.Text = DgvTabla.CurrentRow.Cells(8).Value 'APAGAR
-
+        With DgvTabla
+            idTarifa = .CurrentRow.Cells(0).Value 'LLENAR VARIABLE CON ID TARIFA
+            LblNomPago.Text = .CurrentRow.Cells(1).Value 'NOMBRE PAGO
+            TxtPrecio.Text = .CurrentRow.Cells(2).Value 'PRECIO
+            NudEdadMin.Value = .CurrentRow.Cells(3).Value 'EDAD MINIMA
+            NudEdadMax.Value = .CurrentRow.Cells(4).Value 'EDAD MAXIMA
+            NudNumPerson.Value = .CurrentRow.Cells(5).Value 'Nº DE PERSONAS
+            TxtTotal.Text = .CurrentRow.Cells(6).Value 'TOTAL
+            TxtDscnto.Text = .CurrentRow.Cells(7).Value 'DESCUENTO
+            TxtApagar.Text = .CurrentRow.Cells(8).Value 'APAGAR
+        End With
     End Sub
 
+    '---------- >>>>>><  ><<<<<< ----------'
     '----->>>>> PROCEDIMIENTOS <<<<<-----'
+    '---------- >>>>>><  ><<<<<< ----------'
     Sub BtnNuevoModificar()
 
         BtnNuevo.Visible = False

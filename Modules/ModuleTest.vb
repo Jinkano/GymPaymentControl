@@ -1,14 +1,19 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports System.Data.Common
+Imports MySql.Data.MySqlClient
 
-Module Functions
+Module ModuleTest
     '
     Dim cnxnMySql As New MySqlConnection
     Dim cmdCommand As MySqlCommand
     Dim drDataReader As MySqlDataReader
+    '
+    Dim dtDataTable As New DataTable
+    '
     Dim nRow, cMes, cReg, idCli As Int16
     Dim sTotal As Decimal
     Dim arrayMeses() As String = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"}
     '
+
     Public Sub ListaClientes(ByVal SqlConsulta As String, CmbBuscar As String, ByVal DgvListaClientes As DataGridView)
 
         Try
@@ -26,11 +31,11 @@ Module Functions
                     DgvListaClientes.Rows(nRow).Cells(0).Value = drDataReader.GetString(1).ToString 'NOMBRE
                     DgvListaClientes.Rows(nRow).Cells(1).Value = drDataReader.GetString(2).ToString 'APELLIDO
                     DgvListaClientes.Rows(nRow).Cells(2).Value = Int(DateDiff("m", drDataReader.GetDateTime(3).ToString("yyyy-MM-dd"), Now) / 12) & " años" 'EDAD
-                    DgvListaClientes.Rows(nRow).Cells(3).Value = FechaLarga(drDataReader.GetDateTime(3).ToShortDateString) 'FECHA DE NACIMIENTO
+                    DgvListaClientes.Rows(nRow).Cells(3).Value = Fun_Long_Date(drDataReader.GetDateTime(3).ToShortDateString) 'FECHA DE NACIMIENTO
                     DgvListaClientes.Rows(nRow).Cells(4).Value = drDataReader.GetString(4).ToString 'TELEFONO
                     DgvListaClientes.Rows(nRow).Cells(5).Value = drDataReader.GetString(5).ToString 'E-MAIL
                     DgvListaClientes.Rows(nRow).Cells(6).Value = drDataReader.GetString(6).ToString 'DIRECCION
-                    DgvListaClientes.Rows(nRow).Cells(7).Value = FechaLarga(drDataReader.GetDateTime(7).ToShortDateString) 'FECHA DE INSCRIPCION
+                    DgvListaClientes.Rows(nRow).Cells(7).Value = Fun_Long_Date(drDataReader.GetDateTime(7).ToShortDateString) 'FECHA DE INSCRIPCION
                     DgvListaClientes.Rows(nRow).Cells(8).Value = drDataReader.GetInt16(0).ToString 'ID
                     DgvListaClientes.Rows(nRow).Cells(9).Value = drDataReader.GetString(8).ToString 'ESTADO
                 End While
@@ -54,6 +59,8 @@ Module Functions
             MsgBox(ex.ToString)
         End Try
     End Sub
+
+
 
     Public Sub ListaMorosos(ByVal SqlConsulta As String, CmbBuscar As String, ByVal DgvMorosos As DataGridView)
         '
@@ -161,7 +168,7 @@ Module Functions
                 '
             End If
             '
-            '::::FrmListaMorosos.cReg = cReg
+            '''FrmListaMorosos.cReg = cReg
             cReg = 0
             drDataReader.Close()
             cnxnMySql.Close()
@@ -209,7 +216,7 @@ Module Functions
                         DgvListaPagos.Rows(nRow).DefaultCellStyle.Font = New Drawing.Font("Arial", 10, FontStyle.Bold)
                         '
                     Else
-                        DgvListaPagos.Rows(nRow).Cells(7).Value = FechaLarga(drDataReader.GetDateTime(2).ToShortDateString) 'FECHA DE PAGO
+                        DgvListaPagos.Rows(nRow).Cells(7).Value = Fun_Long_Date(drDataReader.GetDateTime(2).ToShortDateString) 'FECHA DE PAGO
                         DgvListaPagos.Rows(nRow).Cells(8).Value = drDataReader.GetString(3).ToString 'FORMA DE PAGO
                         DgvListaPagos.Rows(nRow).Cells(9).Value = drDataReader.GetString(7).ToString 'USUARIO
                     End If
@@ -223,29 +230,5 @@ Module Functions
         End Try
     End Sub
 
-    Public Sub SoloLetras(ByVal Texto As String, e As KeyPressEventArgs)
-        '
-        If Texto = "Nº de Registros" Then e.Handled = True : Exit Sub
-        If Char.IsControl(e.KeyChar) Then e.Handled = False : Exit Sub
-        If Char.IsSeparator(e.KeyChar) Then e.Handled = False : Exit Sub
-        If Not Char.IsLetter(e.KeyChar) Then e.Handled = True : Exit Sub
-        '
-    End Sub
 
-    Public Sub SoloNumeros(ByVal Numero As String, e As KeyPressEventArgs)
-
-        If (e.KeyChar = ".") Then e.Handled = False : Exit Sub
-        If Char.IsControl(e.KeyChar) Then e.Handled = False : Exit Sub
-        If Not Char.IsNumber(e.KeyChar) Then e.Handled = True : Exit Sub
-        'If Char.IsSeparator(e.KeyChar) Then e.Handled = False : Exit Sub
-    End Sub
-
-    Public Function FechaLarga(ByVal fecha As Date) As String
-        Dim dia = fecha.Day
-        Dim mes = fecha.Month
-        Dim ano = fecha.Year
-        Dim strFecha = dia & " de " & arrayMeses(mes - 1) & " de " & ano
-        Return strFecha
-    End Function
-    '
 End Module

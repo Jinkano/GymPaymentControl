@@ -25,9 +25,10 @@ Partial Class FrmNewModifyClient
         Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.GbOtros = New System.Windows.Forms.GroupBox()
-        Me.RbEstadoInactivo = New System.Windows.Forms.RadioButton()
-        Me.RbEstadoActivo = New System.Windows.Forms.RadioButton()
+        Me.RbInactiveState = New System.Windows.Forms.RadioButton()
+        Me.RbActiveStatus = New System.Windows.Forms.RadioButton()
         Me.LblEstadoCli = New System.Windows.Forms.Label()
         Me.DtpFdi = New System.Windows.Forms.DateTimePicker()
         Me.LblFinscripcion = New System.Windows.Forms.Label()
@@ -38,7 +39,7 @@ Partial Class FrmNewModifyClient
         Me.BtnAddGrupo = New System.Windows.Forms.Button()
         Me.GbListaGrupoFamiliar = New System.Windows.Forms.GroupBox()
         Me.LblNumIntgrntes = New System.Windows.Forms.Label()
-        Me.TxtListaNombre = New System.Windows.Forms.TextBox()
+        Me.TxtListaNom = New System.Windows.Forms.TextBox()
         Me.DgvListaNombre = New System.Windows.Forms.DataGridView()
         Me.ColIdGrupo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColNomGrupo = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -61,21 +62,22 @@ Partial Class FrmNewModifyClient
         Me.LblFnacimiento = New System.Windows.Forms.Label()
         Me.LblApellido = New System.Windows.Forms.Label()
         Me.LblNombre = New System.Windows.Forms.Label()
-        Me.BtnGuardar = New System.Windows.Forms.Button()
         Me.BtnActualizar = New System.Windows.Forms.Button()
-        Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
+        Me.BtnGuardar = New System.Windows.Forms.Button()
+        Me.ErrorProvider = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.GbOtros.SuspendLayout()
         Me.GbMetodoPago.SuspendLayout()
         Me.GbListaGrupoFamiliar.SuspendLayout()
         CType(Me.DgvListaNombre, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GbContacto.SuspendLayout()
         Me.GbDatos.SuspendLayout()
+        CType(Me.ErrorProvider, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GbOtros
         '
-        Me.GbOtros.Controls.Add(Me.RbEstadoInactivo)
-        Me.GbOtros.Controls.Add(Me.RbEstadoActivo)
+        Me.GbOtros.Controls.Add(Me.RbInactiveState)
+        Me.GbOtros.Controls.Add(Me.RbActiveStatus)
         Me.GbOtros.Controls.Add(Me.LblEstadoCli)
         Me.GbOtros.Controls.Add(Me.DtpFdi)
         Me.GbOtros.Controls.Add(Me.LblFinscripcion)
@@ -85,41 +87,41 @@ Partial Class FrmNewModifyClient
         Me.GbOtros.Name = "GbOtros"
         Me.GbOtros.Padding = New System.Windows.Forms.Padding(0)
         Me.GbOtros.Size = New System.Drawing.Size(374, 163)
-        Me.GbOtros.TabIndex = 7
+        Me.GbOtros.TabIndex = 10
         Me.GbOtros.TabStop = False
         Me.GbOtros.Text = "Otros datos :"
         '
-        'RbEstadoInactivo
+        'RbInactiveState
         '
-        Me.RbEstadoInactivo.Appearance = System.Windows.Forms.Appearance.Button
-        Me.RbEstadoInactivo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RbEstadoInactivo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.RbEstadoInactivo.Location = New System.Drawing.Point(192, 113)
-        Me.RbEstadoInactivo.Margin = New System.Windows.Forms.Padding(0)
-        Me.RbEstadoInactivo.Name = "RbEstadoInactivo"
-        Me.RbEstadoInactivo.Padding = New System.Windows.Forms.Padding(30, 0, 30, 0)
-        Me.RbEstadoInactivo.Size = New System.Drawing.Size(160, 26)
-        Me.RbEstadoInactivo.TabIndex = 2
-        Me.RbEstadoInactivo.Text = "Inactivo"
-        Me.RbEstadoInactivo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.RbEstadoInactivo.UseVisualStyleBackColor = True
+        Me.RbInactiveState.Appearance = System.Windows.Forms.Appearance.Button
+        Me.RbInactiveState.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RbInactiveState.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.RbInactiveState.Location = New System.Drawing.Point(192, 113)
+        Me.RbInactiveState.Margin = New System.Windows.Forms.Padding(0)
+        Me.RbInactiveState.Name = "RbInactiveState"
+        Me.RbInactiveState.Padding = New System.Windows.Forms.Padding(30, 0, 30, 0)
+        Me.RbInactiveState.Size = New System.Drawing.Size(160, 26)
+        Me.RbInactiveState.TabIndex = 2
+        Me.RbInactiveState.Text = "Inactivo"
+        Me.RbInactiveState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.RbInactiveState.UseVisualStyleBackColor = True
         '
-        'RbEstadoActivo
+        'RbActiveStatus
         '
-        Me.RbEstadoActivo.Appearance = System.Windows.Forms.Appearance.Button
-        Me.RbEstadoActivo.Checked = True
-        Me.RbEstadoActivo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RbEstadoActivo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.RbEstadoActivo.Location = New System.Drawing.Point(24, 113)
-        Me.RbEstadoActivo.Margin = New System.Windows.Forms.Padding(0, 8, 0, 24)
-        Me.RbEstadoActivo.Name = "RbEstadoActivo"
-        Me.RbEstadoActivo.Padding = New System.Windows.Forms.Padding(30, 0, 30, 0)
-        Me.RbEstadoActivo.Size = New System.Drawing.Size(160, 26)
-        Me.RbEstadoActivo.TabIndex = 1
-        Me.RbEstadoActivo.TabStop = True
-        Me.RbEstadoActivo.Text = "Activo"
-        Me.RbEstadoActivo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.RbEstadoActivo.UseVisualStyleBackColor = True
+        Me.RbActiveStatus.Appearance = System.Windows.Forms.Appearance.Button
+        Me.RbActiveStatus.Checked = True
+        Me.RbActiveStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RbActiveStatus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.RbActiveStatus.Location = New System.Drawing.Point(24, 113)
+        Me.RbActiveStatus.Margin = New System.Windows.Forms.Padding(0, 8, 0, 24)
+        Me.RbActiveStatus.Name = "RbActiveStatus"
+        Me.RbActiveStatus.Padding = New System.Windows.Forms.Padding(30, 0, 30, 0)
+        Me.RbActiveStatus.Size = New System.Drawing.Size(160, 26)
+        Me.RbActiveStatus.TabIndex = 1
+        Me.RbActiveStatus.TabStop = True
+        Me.RbActiveStatus.Text = "Activo"
+        Me.RbActiveStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.RbActiveStatus.UseVisualStyleBackColor = True
         '
         'LblEstadoCli
         '
@@ -134,7 +136,7 @@ Partial Class FrmNewModifyClient
         '
         'DtpFdi
         '
-        Me.DtpFdi.CalendarFont = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DtpFdi.CalendarFont = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DtpFdi.CustomFormat = "' ' dddd ', ' dd ' de ' MMMM ' de ' yyyy"
         Me.DtpFdi.Font = New System.Drawing.Font("Linux Libertine Display G", 12.0!)
         Me.DtpFdi.Format = System.Windows.Forms.DateTimePickerFormat.Custom
@@ -167,10 +169,10 @@ Partial Class FrmNewModifyClient
         Me.GbMetodoPago.Margin = New System.Windows.Forms.Padding(0, 16, 0, 0)
         Me.GbMetodoPago.Name = "GbMetodoPago"
         Me.GbMetodoPago.Padding = New System.Windows.Forms.Padding(0)
-        Me.GbMetodoPago.Size = New System.Drawing.Size(376, 341)
-        Me.GbMetodoPago.TabIndex = 9
+        Me.GbMetodoPago.Size = New System.Drawing.Size(374, 341)
+        Me.GbMetodoPago.TabIndex = 11
         Me.GbMetodoPago.TabStop = False
-        Me.GbMetodoPago.Text = "Método de pago"
+        Me.GbMetodoPago.Text = "Método de pago :"
         '
         'RbDiario
         '
@@ -228,14 +230,13 @@ Partial Class FrmNewModifyClient
         Me.BtnAddGrupo.Margin = New System.Windows.Forms.Padding(8, 0, 0, 0)
         Me.BtnAddGrupo.Name = "BtnAddGrupo"
         Me.BtnAddGrupo.Size = New System.Drawing.Size(90, 40)
-        Me.BtnAddGrupo.TabIndex = 4
-        Me.ToolTip.SetToolTip(Me.BtnAddGrupo, "AGREGAR NUEVO GRUPO FAMILIAR")
+        Me.BtnAddGrupo.TabIndex = 3
         Me.BtnAddGrupo.UseVisualStyleBackColor = True
         '
         'GbListaGrupoFamiliar
         '
         Me.GbListaGrupoFamiliar.Controls.Add(Me.LblNumIntgrntes)
-        Me.GbListaGrupoFamiliar.Controls.Add(Me.TxtListaNombre)
+        Me.GbListaGrupoFamiliar.Controls.Add(Me.TxtListaNom)
         Me.GbListaGrupoFamiliar.Controls.Add(Me.DgvListaNombre)
         Me.GbListaGrupoFamiliar.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GbListaGrupoFamiliar.Location = New System.Drawing.Point(24, 131)
@@ -243,7 +244,7 @@ Partial Class FrmNewModifyClient
         Me.GbListaGrupoFamiliar.Name = "GbListaGrupoFamiliar"
         Me.GbListaGrupoFamiliar.Padding = New System.Windows.Forms.Padding(0)
         Me.GbListaGrupoFamiliar.Size = New System.Drawing.Size(328, 186)
-        Me.GbListaGrupoFamiliar.TabIndex = 3
+        Me.GbListaGrupoFamiliar.TabIndex = 4
         Me.GbListaGrupoFamiliar.TabStop = False
         Me.GbListaGrupoFamiliar.Text = "Lista vacia"
         '
@@ -251,7 +252,7 @@ Partial Class FrmNewModifyClient
         '
         Me.LblNumIntgrntes.BackColor = System.Drawing.Color.Azure
         Me.LblNumIntgrntes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LblNumIntgrntes.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblNumIntgrntes.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblNumIntgrntes.ForeColor = System.Drawing.Color.MediumBlue
         Me.LblNumIntgrntes.Location = New System.Drawing.Point(258, 26)
         Me.LblNumIntgrntes.Margin = New System.Windows.Forms.Padding(0)
@@ -260,20 +261,20 @@ Partial Class FrmNewModifyClient
         Me.LblNumIntgrntes.TabIndex = 2
         Me.LblNumIntgrntes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'TxtListaNombre
+        'TxtListaNom
         '
-        Me.TxtListaNombre.BackColor = System.Drawing.Color.Azure
-        Me.TxtListaNombre.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.TxtListaNombre.Enabled = False
-        Me.TxtListaNombre.Font = New System.Drawing.Font("Linux Libertine Display G", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtListaNombre.ForeColor = System.Drawing.Color.MediumBlue
-        Me.TxtListaNombre.Location = New System.Drawing.Point(0, 26)
-        Me.TxtListaNombre.Margin = New System.Windows.Forms.Padding(0, 8, 0, 0)
-        Me.TxtListaNombre.MaxLength = 30
-        Me.TxtListaNombre.Name = "TxtListaNombre"
-        Me.TxtListaNombre.Size = New System.Drawing.Size(255, 26)
-        Me.TxtListaNombre.TabIndex = 0
-        Me.TxtListaNombre.WordWrap = False
+        Me.TxtListaNom.BackColor = System.Drawing.Color.Azure
+        Me.TxtListaNom.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TxtListaNom.Enabled = False
+        Me.TxtListaNom.Font = New System.Drawing.Font("Linux Libertine Display G", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtListaNom.ForeColor = System.Drawing.Color.MediumBlue
+        Me.TxtListaNom.Location = New System.Drawing.Point(0, 26)
+        Me.TxtListaNom.Margin = New System.Windows.Forms.Padding(0, 8, 0, 0)
+        Me.TxtListaNom.MaxLength = 30
+        Me.TxtListaNom.Name = "TxtListaNom"
+        Me.TxtListaNom.Size = New System.Drawing.Size(255, 26)
+        Me.TxtListaNom.TabIndex = 0
+        Me.TxtListaNom.WordWrap = False
         '
         'DgvListaNombre
         '
@@ -308,7 +309,6 @@ Partial Class FrmNewModifyClient
         Me.DgvListaNombre.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DgvListaNombre.Size = New System.Drawing.Size(328, 130)
         Me.DgvListaNombre.TabIndex = 1
-        Me.ToolTip.SetToolTip(Me.DgvListaNombre, "HAZ CLICK PARA SELECCIONAR UN GRUPO")
         '
         'ColIdGrupo
         '
@@ -356,7 +356,7 @@ Partial Class FrmNewModifyClient
         Me.BtnCancelar.Name = "BtnCancelar"
         Me.BtnCancelar.Padding = New System.Windows.Forms.Padding(0, 7, 0, 4)
         Me.BtnCancelar.Size = New System.Drawing.Size(135, 75)
-        Me.BtnCancelar.TabIndex = 8
+        Me.BtnCancelar.TabIndex = 14
         Me.BtnCancelar.Text = "&Cancelar"
         Me.BtnCancelar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.BtnCancelar.UseVisualStyleBackColor = False
@@ -375,7 +375,7 @@ Partial Class FrmNewModifyClient
         Me.GbContacto.Name = "GbContacto"
         Me.GbContacto.Padding = New System.Windows.Forms.Padding(0)
         Me.GbContacto.Size = New System.Drawing.Size(398, 279)
-        Me.GbContacto.TabIndex = 5
+        Me.GbContacto.TabIndex = 9
         Me.GbContacto.TabStop = False
         Me.GbContacto.Text = "Datos de contacto :"
         '
@@ -470,7 +470,7 @@ Partial Class FrmNewModifyClient
         Me.GbDatos.Name = "GbDatos"
         Me.GbDatos.Padding = New System.Windows.Forms.Padding(0)
         Me.GbDatos.Size = New System.Drawing.Size(398, 225)
-        Me.GbDatos.TabIndex = 4
+        Me.GbDatos.TabIndex = 8
         Me.GbDatos.TabStop = False
         Me.GbDatos.Text = "Datos del cliente :"
         '
@@ -571,25 +571,6 @@ Partial Class FrmNewModifyClient
         Me.LblNombre.TabIndex = 4
         Me.LblNombre.Text = "Nombre"
         '
-        'BtnGuardar
-        '
-        Me.BtnGuardar.BackColor = System.Drawing.SystemColors.Control
-        Me.BtnGuardar.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.BtnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnGuardar.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnGuardar.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.BtnGuardar.Image = Global.GymPaymentControl.My.Resources.Resources.ic_save_28x28
-        Me.BtnGuardar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.BtnGuardar.Location = New System.Drawing.Point(837, 41)
-        Me.BtnGuardar.Margin = New System.Windows.Forms.Padding(24, 32, 16, 0)
-        Me.BtnGuardar.Name = "BtnGuardar"
-        Me.BtnGuardar.Padding = New System.Windows.Forms.Padding(0, 7, 0, 4)
-        Me.BtnGuardar.Size = New System.Drawing.Size(135, 75)
-        Me.BtnGuardar.TabIndex = 6
-        Me.BtnGuardar.Text = "&Guardar"
-        Me.BtnGuardar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.BtnGuardar.UseVisualStyleBackColor = False
-        '
         'BtnActualizar
         '
         Me.BtnActualizar.BackColor = System.Drawing.SystemColors.Control
@@ -604,10 +585,33 @@ Partial Class FrmNewModifyClient
         Me.BtnActualizar.Name = "BtnActualizar"
         Me.BtnActualizar.Padding = New System.Windows.Forms.Padding(0, 7, 0, 4)
         Me.BtnActualizar.Size = New System.Drawing.Size(135, 75)
-        Me.BtnActualizar.TabIndex = 10
+        Me.BtnActualizar.TabIndex = 13
         Me.BtnActualizar.Text = "&Actualizar"
         Me.BtnActualizar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.BtnActualizar.UseVisualStyleBackColor = False
+        '
+        'BtnGuardar
+        '
+        Me.BtnGuardar.BackColor = System.Drawing.SystemColors.Control
+        Me.BtnGuardar.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.BtnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnGuardar.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnGuardar.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.BtnGuardar.Image = Global.GymPaymentControl.My.Resources.Resources.ic_save_28x28
+        Me.BtnGuardar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.BtnGuardar.Location = New System.Drawing.Point(837, 41)
+        Me.BtnGuardar.Margin = New System.Windows.Forms.Padding(24, 32, 16, 0)
+        Me.BtnGuardar.Name = "BtnGuardar"
+        Me.BtnGuardar.Padding = New System.Windows.Forms.Padding(0, 7, 0, 4)
+        Me.BtnGuardar.Size = New System.Drawing.Size(135, 75)
+        Me.BtnGuardar.TabIndex = 12
+        Me.BtnGuardar.Text = "&Guardar"
+        Me.BtnGuardar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.BtnGuardar.UseVisualStyleBackColor = False
+        '
+        'ErrorProvider
+        '
+        Me.ErrorProvider.ContainerControl = Me
         '
         'FrmNewModifyClient
         '
@@ -619,8 +623,8 @@ Partial Class FrmNewModifyClient
         Me.Controls.Add(Me.BtnCancelar)
         Me.Controls.Add(Me.GbContacto)
         Me.Controls.Add(Me.GbDatos)
-        Me.Controls.Add(Me.BtnGuardar)
         Me.Controls.Add(Me.BtnActualizar)
+        Me.Controls.Add(Me.BtnGuardar)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -637,13 +641,14 @@ Partial Class FrmNewModifyClient
         Me.GbContacto.PerformLayout()
         Me.GbDatos.ResumeLayout(False)
         Me.GbDatos.PerformLayout()
+        CType(Me.ErrorProvider, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-
+    Friend WithEvents ToolTip As ToolTip
     Friend WithEvents GbOtros As GroupBox
-    Friend WithEvents RbEstadoInactivo As RadioButton
-    Friend WithEvents RbEstadoActivo As RadioButton
+    Friend WithEvents RbInactiveState As RadioButton
+    Friend WithEvents RbActiveStatus As RadioButton
     Friend WithEvents LblEstadoCli As Label
     Friend WithEvents DtpFdi As DateTimePicker
     Friend WithEvents LblFinscripcion As Label
@@ -654,7 +659,7 @@ Partial Class FrmNewModifyClient
     Friend WithEvents BtnAddGrupo As Button
     Friend WithEvents GbListaGrupoFamiliar As GroupBox
     Friend WithEvents LblNumIntgrntes As Label
-    Friend WithEvents TxtListaNombre As TextBox
+    Friend WithEvents TxtListaNom As TextBox
     Friend WithEvents DgvListaNombre As DataGridView
     Friend WithEvents ColIdGrupo As DataGridViewTextBoxColumn
     Friend WithEvents ColNomGrupo As DataGridViewTextBoxColumn
@@ -677,7 +682,7 @@ Partial Class FrmNewModifyClient
     Friend WithEvents LblFnacimiento As Label
     Friend WithEvents LblApellido As Label
     Friend WithEvents LblNombre As Label
-    Friend WithEvents BtnGuardar As Button
     Friend WithEvents BtnActualizar As Button
-    Friend WithEvents ToolTip As ToolTip
+    Friend WithEvents BtnGuardar As Button
+    Friend WithEvents ErrorProvider As ErrorProvider
 End Class

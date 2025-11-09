@@ -22,6 +22,11 @@ GymPaymentControl
   búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
 </summary>
 </member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_add_group_37x30">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:GymPaymentControl.My.Resources.Resources.ic_cancel_28x28">
 <summary>
   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
@@ -33,6 +38,11 @@ GymPaymentControl
 </summary>
 </member>
 <member name="P:GymPaymentControl.My.Resources.Resources.ic_close_22x22">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_daily_27x30">
 <summary>
   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
 </summary>
@@ -63,6 +73,11 @@ GymPaymentControl
 </summary>
 </member>
 <member name="P:GymPaymentControl.My.Resources.Resources.ic_modify_28x32">
+<summary>
+  Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:GymPaymentControl.My.Resources.Resources.ic_monthly_30x30">
 <summary>
   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
 </summary>

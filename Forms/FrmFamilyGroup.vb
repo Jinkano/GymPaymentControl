@@ -141,7 +141,7 @@ Public Class FrmFamilyGroup
         End Try
 
         'PASAMOS EL NOMBRE DEL GRUPO AL FORMULARIO FrmNuevoEditarCliente
-        FrmNewModifyClient.RbGrupoFamiliar.Checked = True
+        FrmNewModifyClient.TxtListaNom.Text = TxtListNomGrupo.Text
 
     End Sub
 

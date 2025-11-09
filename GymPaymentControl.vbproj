@@ -77,44 +77,52 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FrmNewModifyClient.vb">
+    <Compile Include="Forms\FrmClientsPayments.Designer.vb">
+      <DependentUpon>FrmClientsPayments.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmClientsPayments.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmNewModifyClient.Designer.vb">
+    <Compile Include="Forms\FrmNewModifyClient.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmNewModifyClient.Designer.vb">
       <DependentUpon>FrmNewModifyClient.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmDiscountTable.Designer.vb">
+    <Compile Include="Forms\FrmDiscountTable.Designer.vb">
       <DependentUpon>FrmDiscountTable.vb</DependentUpon>
     </Compile>
-    <Compile Include="FrmDiscountTable.vb">
+    <Compile Include="Forms\FrmDiscountTable.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmFamilyGroup.Designer.vb">
+    <Compile Include="Forms\FrmFamilyGroup.Designer.vb">
       <DependentUpon>FrmFamilyGroup.vb</DependentUpon>
     </Compile>
-    <Compile Include="FrmFamilyGroup.vb">
+    <Compile Include="Forms\FrmFamilyGroup.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmMain.Designer.vb">
+    <Compile Include="Forms\FrmMain.Designer.vb">
       <DependentUpon>FrmMain.vb</DependentUpon>
     </Compile>
-    <Compile Include="FrmMain.vb">
+    <Compile Include="Forms\FrmMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmPresentation.Designer.vb">
+    <Compile Include="Forms\FrmPresentation.Designer.vb">
       <DependentUpon>FrmPresentation.vb</DependentUpon>
     </Compile>
-    <Compile Include="FrmPresentation.vb">
+    <Compile Include="Forms\FrmPresentation.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmUserPassword.Designer.vb">
+    <Compile Include="Forms\FrmUserPassword.Designer.vb">
       <DependentUpon>FrmUserPassword.vb</DependentUpon>
     </Compile>
-    <Compile Include="FrmUserPassword.vb">
+    <Compile Include="Forms\FrmUserPassword.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Functions.vb" />
+    <Compile Include="Modules\ModuleTest.vb" />
+    <Compile Include="Modules\SQLqueries.vb" />
+    <Compile Include="Modules\Validations.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -133,22 +141,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FrmNewModifyClient.resx">
+    <EmbeddedResource Include="Forms\FrmNewModifyClient.resx">
       <DependentUpon>FrmNewModifyClient.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmDiscountTable.resx">
+    <EmbeddedResource Include="Forms\FrmDiscountTable.resx">
       <DependentUpon>FrmDiscountTable.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmFamilyGroup.resx">
+    <EmbeddedResource Include="Forms\FrmFamilyGroup.resx">
       <DependentUpon>FrmFamilyGroup.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmMain.resx">
+    <EmbeddedResource Include="Forms\FrmMain.resx">
       <DependentUpon>FrmMain.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmPresentation.resx">
+    <EmbeddedResource Include="Forms\FrmPresentation.resx">
       <DependentUpon>FrmPresentation.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmUserPassword.resx">
+    <EmbeddedResource Include="Forms\FrmUserPassword.resx">
       <DependentUpon>FrmUserPassword.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">

@@ -140,7 +140,6 @@ Public Class FrmMain
         'AGREGAR NOMBRE DE USUARIO A LA BARRA DE TITULO
         Me.Text = Me.Text & nomUser & " - " & cargoUser
     End Sub
-
     Private Sub FrmMain_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
 
         'COMPRUEBA SI EL FORMULARIO DE ESTÁ CERRANDO
@@ -167,7 +166,9 @@ Public Class FrmMain
             cnxnMySql.Close()
         End Try
     End Sub
-
+    '
+    '
+    '
     Private Sub BtnListaClientes_Click(sender As Object, e As EventArgs) Handles BtnListaClientes.Click
         'FrmListaClientes.MdiParent = Me
         'FrmListaClientes.Show()
@@ -185,9 +186,9 @@ Public Class FrmMain
     End Sub
 
     Private Sub BtnPrecioDsctos_Click(sender As Object, e As EventArgs) Handles BtnPrecioDsctos.Click
-        ''EJECTA FORMULARIO TABLA DE DESCUENTOS
-        'FrmTablaDescuento.MdiParent = Me
-        'FrmTablaDescuento.Show()
+        'EJECTA FORMULARIO TABLA DE DESCUENTOS
+        FrmDiscountTable.MdiParent = Me
+        FrmDiscountTable.Show()
     End Sub
 
     Private Sub BtnSalir_Click(sender As Object, e As EventArgs) Handles BtnSalir.Click
