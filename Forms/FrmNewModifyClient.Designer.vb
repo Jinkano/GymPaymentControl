@@ -87,7 +87,7 @@ Partial Class FrmNewModifyClient
         Me.GbOtros.Name = "GbOtros"
         Me.GbOtros.Padding = New System.Windows.Forms.Padding(0)
         Me.GbOtros.Size = New System.Drawing.Size(374, 163)
-        Me.GbOtros.TabIndex = 10
+        Me.GbOtros.TabIndex = 2
         Me.GbOtros.TabStop = False
         Me.GbOtros.Text = "Otros datos :"
         '
@@ -170,7 +170,7 @@ Partial Class FrmNewModifyClient
         Me.GbMetodoPago.Name = "GbMetodoPago"
         Me.GbMetodoPago.Padding = New System.Windows.Forms.Padding(0)
         Me.GbMetodoPago.Size = New System.Drawing.Size(374, 341)
-        Me.GbMetodoPago.TabIndex = 11
+        Me.GbMetodoPago.TabIndex = 3
         Me.GbMetodoPago.TabStop = False
         Me.GbMetodoPago.Text = "Método de pago :"
         '
@@ -356,7 +356,7 @@ Partial Class FrmNewModifyClient
         Me.BtnCancelar.Name = "BtnCancelar"
         Me.BtnCancelar.Padding = New System.Windows.Forms.Padding(0, 7, 0, 4)
         Me.BtnCancelar.Size = New System.Drawing.Size(135, 75)
-        Me.BtnCancelar.TabIndex = 14
+        Me.BtnCancelar.TabIndex = 6
         Me.BtnCancelar.Text = "&Cancelar"
         Me.BtnCancelar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.BtnCancelar.UseVisualStyleBackColor = False
@@ -375,7 +375,7 @@ Partial Class FrmNewModifyClient
         Me.GbContacto.Name = "GbContacto"
         Me.GbContacto.Padding = New System.Windows.Forms.Padding(0)
         Me.GbContacto.Size = New System.Drawing.Size(398, 279)
-        Me.GbContacto.TabIndex = 9
+        Me.GbContacto.TabIndex = 1
         Me.GbContacto.TabStop = False
         Me.GbContacto.Text = "Datos de contacto :"
         '
@@ -470,7 +470,7 @@ Partial Class FrmNewModifyClient
         Me.GbDatos.Name = "GbDatos"
         Me.GbDatos.Padding = New System.Windows.Forms.Padding(0)
         Me.GbDatos.Size = New System.Drawing.Size(398, 225)
-        Me.GbDatos.TabIndex = 8
+        Me.GbDatos.TabIndex = 0
         Me.GbDatos.TabStop = False
         Me.GbDatos.Text = "Datos del cliente :"
         '
@@ -585,7 +585,7 @@ Partial Class FrmNewModifyClient
         Me.BtnActualizar.Name = "BtnActualizar"
         Me.BtnActualizar.Padding = New System.Windows.Forms.Padding(0, 7, 0, 4)
         Me.BtnActualizar.Size = New System.Drawing.Size(135, 75)
-        Me.BtnActualizar.TabIndex = 13
+        Me.BtnActualizar.TabIndex = 5
         Me.BtnActualizar.Text = "&Actualizar"
         Me.BtnActualizar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.BtnActualizar.UseVisualStyleBackColor = False
@@ -604,7 +604,7 @@ Partial Class FrmNewModifyClient
         Me.BtnGuardar.Name = "BtnGuardar"
         Me.BtnGuardar.Padding = New System.Windows.Forms.Padding(0, 7, 0, 4)
         Me.BtnGuardar.Size = New System.Drawing.Size(135, 75)
-        Me.BtnGuardar.TabIndex = 12
+        Me.BtnGuardar.TabIndex = 4
         Me.BtnGuardar.Text = "&Guardar"
         Me.BtnGuardar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.BtnGuardar.UseVisualStyleBackColor = False
@@ -623,8 +623,8 @@ Partial Class FrmNewModifyClient
         Me.Controls.Add(Me.BtnCancelar)
         Me.Controls.Add(Me.GbContacto)
         Me.Controls.Add(Me.GbDatos)
-        Me.Controls.Add(Me.BtnActualizar)
         Me.Controls.Add(Me.BtnGuardar)
+        Me.Controls.Add(Me.BtnActualizar)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.MinimizeBox = False

@@ -1,7 +1,8 @@
 ﻿
 Public Class FrmNewModifyClient
 
-    Dim sqlConsulta, strEstado, strMtdPgs, strIdGrupo As String
+    Dim currentMonth, currentYear As Int16
+    Dim sqlConsulta, strEstado, strMtdPgs, strIdGrupo, strToolTipText As String
 
     Public blnMarker As Boolean
     Public intAddMember As Int16
@@ -10,19 +11,27 @@ Public Class FrmNewModifyClient
 
     Private Sub FrmNewModifyClient_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        '| * Almacenamos el año actual en la variable currentYear para asignar valores mínimos y _
-        '|   _ máximos a los DateTimePicker DtpFdn y DtpFdi.
+        '|--------------------------------------------------------------------------------------
+        '| LLENAR VALORES A LAS VARIABLE O A LOS DATETIMEPICKERS
+        '|------------------------------------------------------
+        '| * Almacenamos en mes actual en la variable 'currentMonth' para hacer consulta a la
+        '|   base de batos, comprobar si hay pago pendiente de un grupo familiar.
+        '| * Almacenamos el año actual en la variable 'currentYear' para asignar valores mínimos y
+        '|   máximos a los DateTimePicker DtpFdn y DtpFdi.
+        '|
         '| * Asignamos la fecha mínima y máxima al DtpFdn.
         '|
         '| IF : Si el botón BtnGuardar está activado.
         '|      * Limpiamos el DtpFdn y le damos una nueva fecha con 25 años menos.
         '|      * Limpiamos el TxtEdad.
-        '|      * Restamos y sumamos en 1 la variable currentYear que tiene el año actual para _
-        '|        _ el valor mínimo y máximo del DtpFdi.
+        '|      * Restamos y sumamos en 1 la variable currentYear que tiene el año actual para el
+        '|        valor mínimo y máximo del DtpFdi.
+        '|
         '| ELSE : Si el botón BtnActualizar está activado
         '|      * Le pasamos al DtpFdn el formato personalizado de la fecha.
 
-        Dim currentYear = Year(Date.Now)
+        currentMonth = Month(Date.Now) 'DateTime.Now.Month
+        currentYear = Year(Date.Now) 'DateTime.Now.Year
 
         DtpFdn.MinDate = "01/01/" & currentYear - 90
         DtpFdn.MaxDate = DateTime.Now
@@ -34,8 +43,8 @@ Public Class FrmNewModifyClient
 
             TxtEdad.Text = ""
 
-            DtpFdi.MinDate = "01/01/" & currentYear - 1
-            DtpFdi.MaxDate = "31/12/" & currentYear + 1
+            DtpFdi.MinDate = "01/01/" & currentYear - 2
+            DtpFdi.MaxDate = "31/12/" & currentYear + 2
         Else
             DtpFdn.CustomFormat = "' ' dd ' de  ' MMMM ' de  ' yyyy"
         End If
@@ -46,8 +55,8 @@ Public Class FrmNewModifyClient
         '| ---------------------------------------------------------------------------------------------
         '| CERRAMOS LA VENTANA AL DESACTIVAR EL FORMULARIO 
         '| ------------------------------------------------
-        '| * Si se desactiva el Form o se hace clic fuera del Form cerramos el FrmNuevoEditarCliente _
-        '|   _ para evitar hacer otras acciones con el form ejecutado no visible.
+        '| * Si se desactiva el Form o se hace clic fuera del Form cerramos el FrmNuevoEditarCliente
+        '|   para evitar hacer otras acciones con el form ejecutado (no visible).
         Close()
 
     End Sub
@@ -317,6 +326,8 @@ Public Class FrmNewModifyClient
         '|        _ guardamos en la variable sqlConsulta.
         '|      * Llamamos a la subrutina Sub_Crud_Sql y le pasamos la variable sqlConsulta y el texto _
         '|        _ "SubSearchDailyPrice" que se usa para el select case del módulo SQLqueries.
+        '|      * Llenamos la raviable 'strToolTipText' con el texto que se mostrará al pasar el cursor _
+        '|        _ por el Datagridview.
 
         If RbDiario.Checked Then
             strMtdPgs = TxtListaNom.Text
@@ -324,16 +335,24 @@ Public Class FrmNewModifyClient
             DgvListaNombre.Enabled = True
             sqlConsulta = "SELECT id_trfa, tipo_trfa FROM trfa_dscto WHERE tipo_trfa LIKE '%DIARIO%'"
             Sub_Crud_Sql(sqlConsulta, "SubSearchDailyPrice")
+            strToolTipText = "CLIC PARA SELECCIONAR UN PAGO DIARIO"
         End If
 
     End Sub
     Private Sub RbDiario_Click(sender As Object, e As EventArgs) Handles RbDiario.Click
 
-        '| -----------------------------------------------------------------------------
+        '| ---------------------------------------------------------------------------------
         '| LIMPIAR CUADRO DE TEXTO
         '| -----------------------
-        '| * Al hacer click en el RadioButton RbDiario limpiamos el TxtListaNom
-        TxtListaNom.Text = ""
+        '| * Al hacer click en el RadioButton 'RbDiario' comprobamos el valor de la variable
+        '|   'blnMarker', la razón de esta comprobación es porque solo se debe limpiar el
+        '|   cuadro de texto si vamos a registrar un nuevo cliente ya que si estamos actualizando
+        '|   los datos del cliente no podemos cambiar su método de pago si pertenece a un grupo
+        '|   familiar por esa razon en el evento CheckedChanged del RbGrupoFamiliar cambiamos el
+        '|   valor de la variable 'blnMarker = True' para no borrar el nombre del grupo al que
+        '|   pertenece el cliente en cuestión.
+
+        If blnMarker = False Then TxtListaNom.Text = ""
 
     End Sub
     '
@@ -368,20 +387,37 @@ Public Class FrmNewModifyClient
         '| ------------------------------------------------------------------------------------------------------------
         '| HACER LA CONSULTA Y MOSTRAR LOS DATOS EN LA LISTA
         '| ---------------------------------------------
-        '| IF : Comprobamos si el RadioButton 'RbGrupoFamiliar' está seleccionado, si se cumple la condición:
-        '|      * Asigna el valor "GRUPAL" a la variable strMtdPgs (Método de Pago).
+        '| IF : Comprobamos si el RadioButton 'RbGrupoFamiliar' está seleccionado; si se cumple la condición:
+        '|
+        '|      * Asigna a la variable strMtdPgs (Método de Pago) el valor "GRUPAL".
         '|      * Limpia el contenido del TextBox 'TxtListaNom'.
         '|      * Limpia el texto de la Label que muestra el número de integrantes.
         '|      * Establece un nuevo título para el GroupBox 'Lista de grupos familiares'.
-        '|      * Habilitamos los controles BtnAddGrupo, TxtListaNom y DgvListaNombre para la gestión de grupos familiares.
+        '|      * Habilitamos los controles BtnAddGrupo, TxtListaNom y DgvListaNombre para la gestión de los grupos.
         '|      * Enviamos el enfoque al Textbox TxtListaNom.
-        '|      * Hacemos la consulta SQL para obtener todos los datos de la tabla 'grp_familiar' y lo guardammos en la _
-        '|        _ variable sqlConsulta.
-        '|      * Llamamos a la subrutina Sub_Crud_Sql para ejecutar la consulta SQL y le pasamos como parametro la _
-        '|        _ variable 'sqlConsulta' y el texto 'SubFillFamilyGroupData' que se usa en el Select Case del módulo SQLqueries.
-        '| ELSE : Si el RadioButton 'RbGrupoFamiliar' NO está seleccionado:
-        '|      * Limpia la Label del número de integrantes.
-        '|      * Deshabilitamos los controles BtnAddGrupo y TxtListaNom.
+        '|      * Hacemos la consulta SQL para obtener todos los datos de la tabla 'grp_familiar' y lo guardammos en la
+        '|        variable sqlConsulta.
+        '|      * Llamamos a la subrutina Sub_Crud_Sql para ejecutar la consulta SQL y le pasamos como parametro la
+        '|        variable 'sqlConsulta' y el texto 'SubFillFamilyGroupData' que se usa en el Select Case del módulo SQLqueries.
+        '|      * Si la variable 'blnMarker' es igual a True, llenamos el 'TxtListaNom' con el nombre del grupo familiar que
+        '|        tenemos almacenada en la variable 'strToolTipText'.
+        '|      * Llenamos la raviable 'strToolTipText' con el texto que se mostrará al pasar el cursor por el Datagridview.
+        '|
+        '| ELSE : Si el RadioButton es deseleccionado:
+        '|
+        '|      IF : Comprobamos si el button 'BtnActualizar' es visible:
+        '|          
+        '|          * Mostramos un mensaje para avisar que no se puede cambiar el método de pago.
+        '|          * Para no crear otra variable reutilizamos 'strToolTipText', guardamos el nombre del grupo familiar que
+        '|            usaremos cuando se vuelva a seleccionar el RadioButton.
+        '|          * Ponemos la variable 'blnMarker' a True para volver a llenar el textbox con el nombre del grupo que está
+        '|            guardado en la variable 'strToolTipText'.
+        '|          * Volvemos a seleccionar el 'RbGrupoFamiliar'
+        '|
+        '|      ELSE : Si el boton 'BtnGuradr' está visible:
+        '|      
+        '|          * Deshabilitamos los controles BtnAddGrupo y TxtListaNom.
+        '|          * Limpia la Label del número de integrantes.
 
         If RbGrupoFamiliar.Checked Then
 
@@ -395,10 +431,23 @@ Public Class FrmNewModifyClient
             TxtListaNom.Focus()
             sqlConsulta = "SELECT * FROM grp_familiar ORDER BY id_grp DESC"
             Sub_Crud_Sql(sqlConsulta, "SubFillFamilyGroupData")
+            If blnMarker = True Then TxtListaNom.Text = strToolTipText
+            strToolTipText = "DOBLE CLIC PARA SELECCIONAR UN GRUPO"
+
         Else
-            LblNumIntgrntes.Text = ""
-            BtnAddGrupo.Enabled = False
-            TxtListaNom.Enabled = False
+
+            If BtnActualizar.Visible = True Then
+                MsgBox("   No se puede cambiar el MÉTODO de pago de un cliente que    pertenece a un grupo familiar." & vbCr & vbCr &
+                       "   Si quieres cambiar tienes que eliminar el grupo FAMILIAR.", vbCritical, "Error al cambiar método de pago")
+                strToolTipText = TxtListaNom.Text
+                blnMarker = True
+                RbGrupoFamiliar.Checked = True
+            Else
+                BtnAddGrupo.Enabled = False
+                TxtListaNom.Enabled = False
+                LblNumIntgrntes.Text = ""
+            End If
+
         End If
     End Sub
     '
@@ -431,7 +480,8 @@ Public Class FrmNewModifyClient
         '|      IF : Comprobamos si la DataGridView (DgvListaNombre) contiene al menos una fila o registro.
         '|          IF : Comparamos si el texto actual en el TextBox 'TxtListaNom' coincide con el valor de _
         '|               _ la celda de la fila seleccionada o enfocada en la DataGridView.
-        '|              * Si hay coincidencia, llenamos el Label 'LblNumIntgrntes' con el número integrantes.
+        '|              * Si hay coincidencia, llenamos el Label 'LblNumIntgrntes' con el número integrantes,
+        '|                aumentamos en uno [intAddMember] y llenamos strAddMembers = "UPDATE_A_FIELD".
 
         If RbGrupoFamiliar.Checked Then
 
@@ -443,6 +493,8 @@ Public Class FrmNewModifyClient
             If DgvListaNombre.RowCount > 0 Then
                 If TxtListaNom.Text = DgvListaNombre.CurrentRow.Cells(1).Value Then
                     LblNumIntgrntes.Text = DgvListaNombre.CurrentRow.Cells(3).Value & " de " & DgvListaNombre.CurrentRow.Cells(2).Value
+                    intAddMember = DgvListaNombre.CurrentRow.Cells(3).Value + 1
+                    strAddMembers = "UPDATE_A_FIELD"
                 End If
             End If
         End If
@@ -453,7 +505,7 @@ Public Class FrmNewModifyClient
         '| -------------------------------------------------------------------------------------------
         '| CAMBIAR EL COLOR DEL FONDO AL RECIBIR EL ENFOQUE
         '| ------------------------------------------------
-        TxtDireccion.BackColor = Color.Beige
+        TxtListaNom.BackColor = Color.Beige
 
     End Sub
     Private Sub TxtListaNombre_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtListaNom.KeyPress
@@ -473,7 +525,7 @@ Public Class FrmNewModifyClient
         '| ---------------------------------------------------------------------------------------------
         '| CAMBIAR EL COLOR DEL FONDO AL PERDER EL ENFOQUE
         '| ------------------------------------------------
-        TxtDireccion.BackColor = Color.Azure
+        TxtListaNom.BackColor = Color.Azure
 
     End Sub
     '
@@ -501,24 +553,30 @@ Public Class FrmNewModifyClient
         '| DOBLE CLIC EN UNA CELDA DE LA FILA DEL DATAGRIDVIEW
         '| ---------------------------------------------------
         '| IF : Comprobamos si el Radiobutton 'RbGrupoFamiliar' está activado:
+        '|
         '|      IF : Comprobar si la cantidad de integrantes es igual a los integrantes registrados:
-        '|          IF : Mostramos un mensaje de confirmación avisando que el grupo esta lleno, preguntamos si _
-        '|                _ se quiere agregar un nuevo integrantes al grupo familiar.
-        '|              * Si la respuesta es SI aumentamos el valor de la variable 'intAddMember' en uno para _
-        '|                _ comprobar si hay una tarifa y actualizar los datos del grupo.
-        '|              * Hacemos la consulta para comprobamos si existe una tarifa con el número de _
-        '|                _ integrantes y lo guardamos en la variable 'sqlConsulta'.
-        '|              * Llamamos a la subrutina Sub_Crud_Sql() y le pasamos como parámetro 'sqlConsulta' y _
-        '|                _ el texto 'SubSearchGroupPrice' que se usa en el Select Case del módulo SQLqueries.
+        '|
+        '|          IF : Mostramos un mensaje de confirmación avisando que el grupo esta lleno, preguntamos si
+        '|               se quiere agregar un nuevo integrantes al grupo familiar.
+        '|              * Si la respuesta es SI aumentamos el valor de la variable 'intAddMember' en uno para
+        '|                comprobar si hay una tarifa y actualizar los datos del grupo.
+        '|              * Hacemos la consulta para comprobamos si existe una tarifa con el número de integrantes
+        '|                y lo guardamos en la variable 'sqlConsulta'.
+        '|              * Llamamos a la subrutina Sub_Crud_Sql() y le pasamos como parámetro 'sqlConsulta' y el
+        '|                texto 'SubSearchGroupPrice' que se usa en el Select Case del módulo SQLqueries.
+        '|              * Asignamos a la variable 'strAddMembers' el valor 'UPDATE_A_FIELD' para saber que hacer
+        '|                al momento de guardar o actualizar un registro.
+        '|
         '|          ELSE : Si hacemos clic en NO:
-        '|              * Limpiamos el Textbox 'TxtListaNom' para no poder guardar ni actualizar sin seleccionar _
-        '|                _ un grupo familiar.
+        '|              * Limpiamos el Textbox 'TxtListaNom' para no poder guardar ni actualizar sin seleccionar
+        '|                un grupo familiar.
+        '|
         '|      ELSE : Si la cantidad de integrantes es diferente que los integrantes registrados:
         '|          * Llenamos el Textbox 'TxtListaNom' con el nombre del grupo familiar.
         '|          * El el Label 'LblNumIntgrntes' mostramos la cantidad de integrantes registrados en el grupo.
         '|          * Aumentamos en uno el valor de la variable 'intAddMember' del registro seleccionado.
-        '|          * Asignamos a la variable 'strAddMembers' el valor 'UPDATE_A_FIELD' para saber que hacer al _
-        '|            _ momento de guardar o actualizar un registro.
+        '|          * Asignamos a la variable 'strAddMembers' el valor 'UPDATE_A_FIELD' para saber que hacer al
+        '|            momento de guardar o actualizar un registro.
 
         If RbGrupoFamiliar.Checked Then
 
@@ -533,6 +591,7 @@ Public Class FrmNewModifyClient
                     intAddMember = DgvListaNombre.CurrentRow.Cells(2).Value + 1
                     sqlConsulta = "SELECT nperson_trfa FROM trfa_dscto WHERE nperson_trfa = '" & intAddMember & "'"
                     Sub_Crud_Sql(sqlConsulta, "SubSearchGroupPrice")
+                    strAddMembers = "UPDATE_TWO_FIELDS"
                 Else
                     TxtListaNom.Text = ""
                 End If
@@ -543,6 +602,18 @@ Public Class FrmNewModifyClient
                 intAddMember = DgvListaNombre.CurrentRow.Cells(3).Value + 1
                 strAddMembers = "UPDATE_A_FIELD"
             End If
+        End If
+
+    End Sub
+    Private Sub DgvListaNombre_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DgvListaNombre.CellFormatting
+
+        '| ------------------------------------------------------------------------------------------------------------------------------------
+        '| MOSTRAR TOOLTIPTEXT EN EL DATAGRIDVIEW
+        '| --------------------------------------
+        '| IF : Comprobamos si la celda está en la Columna 1 y no es la fila de encabezado asignamos el ToolTipText directamente a la celda.
+
+        If e.RowIndex >= 0 AndAlso e.ColumnIndex = 1 Then
+            DgvListaNombre.Rows(e.RowIndex).Cells(e.ColumnIndex).ToolTipText = strToolTipText
         End If
 
     End Sub
@@ -602,21 +673,20 @@ Public Class FrmNewModifyClient
         '|   _ strIdClient que es Public.
 
         sqlConsulta = "SELECT id_cli FROM clientes ORDER BY id_cli DESC LIMIT 1"
-        'FunReadIdClient(sqlConsulta)
         Sub_Crud_Sql(sqlConsulta, "SubReadIdClient")
 
         '| -----------------------------------------------------------------------------------------------
-        '| CONSULTAMOS A LA BBDD LA TARIFA CORRESPONDIENTE AL NUEVO CLIENTE
-        '| ----------------------------------------------------------------
+        '| CONSULTAMOS A LA BBDD LA TARIFA CORRESPONDIENTE DEL NUEVO CLIENTE O DEL GRUPO
+        '| -----------------------------------------------------------------------------
         '| * Seleccionamos el CASE para la consulta según el valor de la variable [strMtdPgs].
         '| * Llamamos a la subrutina Sub_Crud_Sql() y le pasamos por parámetro la consulta _
         '|   _ almacenada en "sqlConsulta", si en está consulta no hay resultado pasamos la variable _
-        '|   _ blnMarker a True.
+        '|   _ blnMarker a False.
         '|
-        '| IF : Si el valor de la variable blnMarker es True
+        '| IF : Si el valor de la variable blnMarker es False
         '|      * Hacemos una nueva consulta para buscar la tarifa única MENSUAL que nos devolverá el _
         '|        _ precio y el descuento registrado en la tabla [trfa_dscto].
-        '|      * Llamamos a la subrutina Sub_Crud_Sql() y le pasamos la consulta .
+        '|      * Llamamos a la subrutina Sub_Crud_Sql() y le pasamos la consulta.
 
         Select Case strMtdPgs
             Case "MENSUAL"
@@ -628,7 +698,7 @@ Public Class FrmNewModifyClient
         End Select
         Sub_Crud_Sql(sqlConsulta, "SubSearchDiscountPrice")
 
-        If blnMarker = True Then
+        If blnMarker = False Then
             sqlConsulta = "SELECT prcio_trfa, dscto_trfa FROM trfa_dscto WHERE tipo_trfa = 'MENSUAL'"
             Sub_Crud_Sql(sqlConsulta, "SubSearchDiscountPrice")
         End If
@@ -636,18 +706,54 @@ Public Class FrmNewModifyClient
         '| -----------------------------------------------------------------------------------------------
         '| AGREGAMOS UN NUEVO REGISTRO EN LA TABLA PAGOS
         '| ---------------------------------------------
-        '| * Hacemos la consulta y lo almacenamos en la variable sqlConsulta.
-        '| * Llamamos al la subrutina Sub_Crud_Sql() y le pasamos la consulta.
+        '| IF : Comprobammos si se va a guardar un pago grupal.
+        '|      * Hacemos la consulta para comprobar si hay un pago pendiente del grupo familiar, en el caso
+        '|        que exista un registro ponemos la variable 'blnmarker' en TRUE para no duplicar ese pago al
+        '|        momento de registrar un nuevo cliente.
+        '|      * Llamamos a la subrutina Sub_Crud_Sql() y le pasamos como parametro la consulta y el valor_
+        '|        "CheckPaymentRegistered" para llamar a la subrutina que se encarga de la variable 'blnmarker'.
+        '|
+        '|      IF : Si el valor de la variable 'blnmarker' es FALSE
+        '|          * Calculammos el precio grupal multiplicando el precio mensual por el número de integrantes.
+        '|          * Hacemos la consulta con el código del grupo y lo almacenamos en la variable sqlConsulta.
+        '|          * Llamamos al la subrutina Sub_Crud_Sql(), le pasamos como parámetro la consulta.
+        '|      
+        '| ELSE : Si el pago no es grupal.
+        '|      * Hacemos la consulta con el código del cliente y lo almacenamos en la variable sqlConsulta.
+        '|      * Llamamos al la subrutina Sub_Crud_Sql() y le pasamos la consulta.
 
-        sqlConsulta = "INSERT INTO pagos (fdi_pgs, mtd_pgs, prc_pgs, dsc_pgs, id_cli, id_user)
-                           VALUES ('" & DateTime.Now.ToString("yyyy-MM-dd") & "', '" & strMtdPgs & "',
-                                '" & Replace(precio, ",", ".") & "', '" & Replace(dscnto, ",", ".") & "',
-                                '" & strIdClient & "', '" & FrmMain.idUser & "')"
-        Sub_Crud_Sql(sqlConsulta)
+        If strMtdPgs = "GRUPAL" Then
+
+            sqlConsulta = "SELECT * FROM pagos WHERE id_grp = '" & DgvListaNombre.CurrentRow.Cells(0).Value & "'
+                            And (MONTH(fdi_pgs) = '" & currentMonth & "' And YEAR(fdi_pgs) = '" & currentYear & "')"
+            Sub_Crud_Sql(sqlConsulta, "CheckPaymentRegistered")
+
+            If blnMarker = False Then
+                precio = precio * DgvListaNombre.CurrentRow.Cells(2).Value
+                sqlConsulta = "INSERT INTO pagos (fdi_pgs, mtd_pgs, prc_pgs, dsc_pgs, id_grp, id_user)
+                                VALUES ('" & DateTime.Now.ToString("yyyy-MM-dd") & "',
+                                        '" & strMtdPgs & "',
+                                        '" & Replace(precio, ",", ".") & "',
+                                        '" & Replace(dscnto, ",", ".") & "',
+                                        '" & DgvListaNombre.CurrentRow.Cells(0).Value & "',
+                                        '" & FrmMain.idUser & "')"
+                Sub_Crud_Sql(sqlConsulta)
+            End If
+
+        Else
+            sqlConsulta = "INSERT INTO pagos (fdi_pgs, mtd_pgs, prc_pgs, dsc_pgs, id_cli, id_user)
+                            VALUES ('" & DateTime.Now.ToString("yyyy-MM-dd") & "',
+                                    '" & strMtdPgs & "',
+                                    '" & Replace(precio, ",", ".") & "',
+                                    '" & Replace(dscnto, ",", ".") & "',
+                                    '" & strIdClient & "',
+                                    '" & FrmMain.idUser & "')"
+            Sub_Crud_Sql(sqlConsulta)
+        End If
 
         '| -----------------------------------------------------------------------------------------------
         '| ACTUALIZAR REGISTROS DE LA TABLA GRUPO_FAMILIAR
-        '| -------------------------------------------------
+        '| -----------------------------------------------
         '| * Comprobamos el valor de la variable strAddMembers para hacer la consulta a la BBDD.
         '|
         '| CASE "UPDATE_A_FIELD" :
@@ -657,6 +763,7 @@ Public Class FrmNewModifyClient
         '| CASE "UPDATE_TWO_FIELDS" :
         '|      * En este caso actualizamos los campos [num_intgrntes_grp y intgrntes_reg_grp] de la tabla [grp_familiar]
         '|      * Llamamos a la subrutina Sub_Crud_Sql() y le pasamos la consulta [sqlConsulta].
+        '|
         '| ** El motivo por el cual estamos llamando dos veces a la subrutina Sub_Crud_Sql() es para evitar guardar dos _
         '|    _ registros en la tabla "pagos" al momento de registrar un nuevo cliente. No se porqué se queda la _
         '|    _ consulta después de cerra el DataReader y la BBDD.
@@ -676,17 +783,19 @@ Public Class FrmNewModifyClient
                 Sub_Crud_Sql(sqlConsulta)
         End Select
 
-        '| -----------------------------------------------------------------------------------------------
-        '| Llamamos a la función FillLabelsMessage() para mostrar los datos en el formulario _
-        '| _ FrmNuevoEditarCliente, ****** y mostrar el mensaje de confirmación.
+        '| -------------------------------------------------------------------------------------------------------------
+        '| * Llenamos la variable strFlag con el valor 'UPDATE_PAYMENT_LIST' para indicar al formulario FrmClientesPagos
+        '|   que actualice la lista de pagos al momento de activarse
+        '| * Activamos los botones del formulario FrmClientesPagos llamando a la subrutina Sub_Activate_Buttons() de
+        '|   dicho formulario.
+        '| * Llamamos a la subrutina FillLabelsMessage() para mostrar los datos en el formulario FrmNuevoEditarCliente y
+        '|   mostrar el mensaje de confirmación.
+
+        FrmClientsPayments.strFlags = "UPDATE_PAYMENT_LIST"
+        FrmClientsPayments.strIdGrpFamily = DgvListaNombre.CurrentRow.Cells(0).Value
+        FrmClientsPayments.Sub_Activate_Buttons()
         FillLabelsMessage()
 
-        'If String.IsNullOrEmpty(LblNomCli.Text) Then
-        '    FunDisableButtons()
-
-        'Esyo es por si se ha guardado
-        FrmClientsPayments.Sub_Activate_Buttons()
-        'End If
     End Sub
     '
     '
@@ -709,14 +818,20 @@ Public Class FrmNewModifyClient
         '| -----------------------------------------------------------------------------------------------
         '| ACTUALIZAR EL REGISTRO EN LA TABLA CLIENTES
         '| -------------------------------------------
-        '| * Comprobamos el valor de la variable strmpago para hacer la consulta a la BBDD
+        '| * Comprobamos el valor de la variable 'strmpago' para hacer la consulta a la BBDD.
+        '|
         '| IF :
-        '|      * Si la variable strMtdPgs es igual a "GRUPAL" hacemos una consulta con el _
-        '|        _ campo [id_grp] de la tabla Gruppo Familiar.
+        '|      * Si la variable 'strMtdPgs' es igual a "GRUPAL" hacemos una consulta con el campo [id_grp]
+        '|        de la tabla Gruppo Familiar.
+        '|
         '| ELSE :
-        '|      * Si la variable strMtdPgs es "MENSUAL" o "DIARIO" hacemos la consulta sin _
-        '|        _ el [id_grp] del grupo familiar.
+        '|      * Si la variable strMtdPgs es "MENSUAL" o "DIARIO" hacemos la consulta sin el [id_grp] del
+        '|        grupo familiar.
+        '|
         '| * Llamamos a la subrutina Sub_Crud_Sql() y le pasamos la consulta [sqlConsulta].
+        '|
+        '| * Llamamos a la subrutina FillLabelsMessage() para mostrar los datos en el formulario FrmNuevoEditarCliente,
+        '|   y mostrar el mensaje de confirmación.
 
         If strMtdPgs = "GRUPAL" Then
 
@@ -746,11 +861,9 @@ Public Class FrmNewModifyClient
                         std_cli='" & strEstado & "'
                         WHERE id_cli='" & strIdClient & "'"
         End If
+
         Sub_Crud_Sql(sqlConsulta)
 
-        '| ------------------------------------------------------------------------------------------------------------
-        '| Llamamos a la función FillLabelsMessage() para mostrar los datos en el formulario FrmNuevoEditarCliente, _
-        '| _ cambiar el texto del StsBarra y mostrar el mensaje de confirmación.
         FillLabelsMessage()
 
     End Sub
@@ -759,8 +872,9 @@ Public Class FrmNewModifyClient
     '
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
 
-        '| Cerramos el formulario.
-        If String.IsNullOrEmpty(FrmClientsPayments.LblNomCli.Text) Then FrmClientsPayments.Sub_Disable_Buttons()
+        '| ----------------------------------------------------------------------------------
+        '| CERRAMOS EL FORMULARIO
+        '| ----------------------
         Me.Close()
 
     End Sub
@@ -771,7 +885,15 @@ Public Class FrmNewModifyClient
 
     Sub Sub_TxtLost_Focus(lblLabel As Label)
 
-        ' 1. Limpiar errores previos
+        '| ------------------------------------------------------------------------
+        '| * Limpiamos cualquier error previo.
+        '|
+        '| IF : Si el label está vacio
+        '|      * Activamos el ErrorProvider y cambiamos el color del label que nos
+        '|        indica error.
+        '| ELSE :
+        '|      * Cambiamos el color del label que indica que el valor es correcto.
+
         ErrorProvider.Clear()
 
         If String.IsNullOrWhiteSpace(lblLabel.Text) Then
@@ -785,30 +907,39 @@ Public Class FrmNewModifyClient
 
     Sub Sub_TxtLost_Focus(txtTextBox As TextBox)
 
-        'TxtCadena.Text = Trim(TxtCadena.Text)
-        'While TxtCadena.Text.Contains("  ")
-        '    TxtCadena.Text = TxtCadena.Text.Replace("  ", " ")
-        'End While
-        'TxtCadena.BackColor = Color.Azure
+        '| --------------------------------------------------------------------------------
+        '| * Limpiamos cualquier error previo que se haya establecido en cualquier control.
+        '|
+        '| IF : Comprueba si el contenido del TextBox es NULO, VACÍO (""), o si solo contiene
+        '|      ESPACIOS EN BLANCO (incluyendo tabs o saltos de línea):
+        '|      * Si la validación falla activamos el ErrorProvider y cambiamos el color de
+        '|        fondo del textbox que nos indica un error y requiere atención.
+        '|
+        '| ELSE : Si el campo tiene caracteres:
+        '|      * Quitamos los espacios en blanco iniciales y finales de la cadena.
+        '|
+        '|      WHILE : Comienza un ciclo para eliminar múltiples espacios internos. Se ejecuta
+        '|              MIENTRAS la cadena contenga la secuencia "  " (dos o más espacios).
+        '|              * Reemplaza los DOS espacios consecutivos con UN solo espacio. Esto se
+        '|                repite hasta que no queden más espacios dobles, asegurando un solo
+        '|                espacio entre palabras.
+        '|      ** Para la limpieza de espacios en blanco tambien podemos usar TRIM y luego
+        '|         REGEX [Regex.Replace(cleanText, "\s+", " ")]. Para nuestro caso no sirve
+        '|         porque borra los saltos de línea y concatena la dirección.**
+        '|
+        '|      * Cambiamos el color de fondo del TextBox que indica que el valor es correcto.
 
-        'If TxtCadena.Text = "" Then TxtCadena.BackColor = Color.MistyRose
-
-        ' 1. Limpiar errores previos
         ErrorProvider.Clear()
 
         If String.IsNullOrWhiteSpace(txtTextBox.Text) Then
-
             ErrorProvider.SetError(txtTextBox, "El campo no puede estar vacío.")
             txtTextBox.BackColor = Color.MistyRose
-
         Else
-
             txtTextBox.Text = Trim(txtTextBox.Text)
             While txtTextBox.Text.Contains("  ")
                 txtTextBox.Text = txtTextBox.Text.Replace("  ", " ")
             End While
             txtTextBox.BackColor = Color.Azure
-
         End If
 
     End Sub
@@ -817,15 +948,19 @@ Public Class FrmNewModifyClient
     '
     Overloads Function FunMsgBox(clientData As String, titleMsgbox As String, textBox As TextBox) As Boolean
 
+        '| -------------------------------------------------------------------------------------------------
         '| IF : Comprobamos si el TextBox está vacío.
+        '|
         '|      * Convertimos el texto de la variable clientData y titleMsgbox en mayúsculsa y minúsculas _
         '|        _ respectivamente usando UCase() y LCase(), también se puede usar ToUpper() y ToLower().
-        '|      * Extraemos el nombre del botón BtnGuardar o BtnActualizar según sea el caso, utilizando Substring() _
-        '|        _ y lo convertimos en minúsculas usando LCase, para mostrarlo en el título de mensaje.
-        '|      * Mostramos el mensaje con los datos recibidos por parámetro, enviamos el enfoque al textbox _
-        '|        _ que corresponda.
+        '|      * Extraemos el nombre del botón BtnGuardar o BtnActualizar, utilizando Substring() y lo _
+        '|        _ convertimos en minúsculas usando LCase, para mostrarlo en el título de mensaje.
+        '|      * Mostramos el mensaje con los datos recibidos por parámetro, enviamos el enfoque al _
+        '|        _ textbox que corresponda.
         '|      * Return True para salir de la función y no ejecutar el resto del código.
+        '|
         '| ELSE : Si el TextBox tiene datos
+        '|
         '|      * Return False para seguir ejecutando el resto del código.
 
         If String.IsNullOrWhiteSpace(textBox.Text) Then
@@ -838,16 +973,17 @@ Public Class FrmNewModifyClient
         Else
             Return False
         End If
+
     End Function
     Overloads Function FunMsgBox(clientData As String, titleMsgbox As String, label As Label, dateTimePicker As DateTimePicker) As Boolean
 
+        '| -------------------------------------------------------------------------------------------------------------------------------
         '| IF : Comprobamos si el Label está vacío.
-        '|      * Convertimos el texto de la variable clientData y titleMsgbox en mayúsculsa y minúsculas _
-        '|        _ respectivamente usando UCase() y LCase(), también se puede usar ToUpper() y ToLower().
-        '|      * Extraemos el nombre del botón BtnGuardar o BtnActualizar según sea el caso, utilizando Substring() _
-        '|        _ y lo convertimos en minúsculas usando LCase, para mostrarlo en el título de mensaje.
-        '|      * Mostramos el mensaje con los datos recibidos por parámetro, enviamos el enfoque al dateTimePicker _
-        '|        _ que corresponda.
+        '|      * Convertimos el texto de la variable clientData y titleMsgbox en mayúsculsa y minúsculas respectivamente usando UCase() _
+        '|        _ y LCase(), también se puede usar ToUpper() y ToLower().
+        '|      * Extraemos el nombre del botón BtnGuardar o BtnActualizar según sea el caso, utilizando Substring() y lo convertimos en _
+        '|        _ minúsculas usando LCase, para mostrarlo en el título de mensaje.
+        '|      * Mostramos el mensaje con los datos recibidos por parámetro, enviamos el enfoque al dateTimePicker que corresponda.
         '|      * Return True para salir de la función y no ejecutar el resto del código.
         '| ELSE : Si el TextBox tiene datos
         '|      * Return False para seguir ejecutando el resto del código.
@@ -865,9 +1001,10 @@ Public Class FrmNewModifyClient
     End Function
     Overloads Function FunMsGbox(titleMsgbox As String, rb1 As RadioButton, rb2 As RadioButton, rb3 As RadioButton) As Boolean
 
+        '| -------------------------------------------------------------------------------------------------------------------
         '| IF : Comprobamos si los RadioButton no están seleccionados.
-        '|      * Extraemos el nombre del botón BtnGuardar o BtnActualizar según sea el caso, utilizando Substring() _
-        '|        _ y lo convertimos en minúsculas usando LCase, para mostrarlo en el título de mensaje.
+        '|      * Extraemos el nombre del botón BtnGuardar o BtnActualizar según sea el caso, utilizando Substring() y lo _
+        '|        _ convertimos en minúsculas usando LCase, para mostrarlo en el título de mensaje.
         '|      * Mostramos el mensaje con los datos recibidos por parámetro.
         '|      * Return True para salir de la función y no ejecutar el resto del código.
         '| ELSE : Si uno de los RadioButton está seleccionado.
@@ -883,14 +1020,14 @@ Public Class FrmNewModifyClient
     End Function
     Overloads Function FunMsgBox(clientData As String, titleMsgbox As String, textBox As TextBox, radioButton As RadioButton) As Boolean
 
+        '| -----------------------------------------------------------------------------------------------------------------------------
         '| IF : Comprobamos si está activado el RadioButton y el TextBox está vacío.
-        '|      * Convertimos el texto de la variable clientData y titleMsgbox en mayúsculsa y minúsculas _
-        '|        _ respectivamente usando UCase() y LCase(), también se puede usar ToUpper() y ToLower()
+        '|      * Convertimos el texto de la variable clientData y titleMsgbox en mayúsculsa y minúsculas respectivamente usando UCase() _
+        '|        _ y LCase(), también se puede usar ToUpper() y ToLower()
         '|      * Comprobamos si la variable clientData = "DIARIO" para agragar el texto "pago ".
-        '|      * Extraemos el nombre del botón BtnGuardar o BtnActualizar según sea el caso, utilizando Substring() _
-        '|        _ y lo convertimos en minúsculas usando LCase, para mostrarlo en el título de mensaje.
-        '|      * Mostramos el mensaje con los datos recibidos por parámetro, enviamos el enfoque al textbox _
-        '|        _ que corresponda.
+        '|      * Extraemos el nombre del botón BtnGuardar o BtnActualizar según sea el caso, utilizando Substring() y lo convertimos en _
+        '|        _ minúsculas usando LCase, para mostrarlo en el título de mensaje.
+        '|      * Mostramos el mensaje con los datos recibidos por parámetro, enviamos el enfoque al textbox que corresponda.
         '|      * Return True para salir de la función y no ejecutar el resto del código.
         '| ELSE : Si el TextBox tiene datos
         '|      * Return False para seguir ejecutando el resto del código.
@@ -955,6 +1092,5 @@ Public Class FrmNewModifyClient
                "   Datos " & bodyText & " correctamente.", vbInformation, "Registrado")
         Close()
     End Sub
-
 
 End Class
